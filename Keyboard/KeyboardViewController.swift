@@ -49,10 +49,10 @@ class KeyboardViewController: UIInputViewController {
             manager.startDeviceMotionUpdates()
             manager.gyroUpdateInterval = 0.1
             manager.startGyroUpdates()
-            Timer.scheduledTimer(timeInterval: 0.15, target:self, selector: #selector(KeyboardViewController.selectMovement), userInfo: nil, repeats: true)
+            Timer.scheduledTimer(timeInterval: 0.15, target: self, selector: #selector(KeyboardViewController.selectMovement), userInfo: nil, repeats: true)
         }
         else {
-            //keyboard wont work for this device
+            // Keyboard won't work for this device.
         }
     }
 
