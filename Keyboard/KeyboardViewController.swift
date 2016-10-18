@@ -9,6 +9,7 @@ import UIKit
 
 class KeyboardViewController: UIInputViewController {
     @IBOutlet var nextKeyboardButton: UIButton!
+    @IBOutlet var alphabetButtons: [UIButton] = []
     
     override func updateViewConstraints() {
         super.updateViewConstraints()
@@ -26,6 +27,7 @@ class KeyboardViewController: UIInputViewController {
     // Called once in 'viewDidLoad()' to render all the keyboard buttons.
     func addKeyboardButtons() {
         addNextKeyboardButton()
+        addAlphabetButtons()
     }
     
     // Renders a button to switch to the next system keyboard.
@@ -42,6 +44,100 @@ class KeyboardViewController: UIInputViewController {
         
         self.nextKeyboardButton.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.nextKeyboardButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+    }
+    
+    func addAlphabetButtons() {
+        let buttonTitles = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "g", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "\u{232b}"]
+        alphabetButtons = createButtons(titles: buttonTitles)
+        let alphabetRow = UIView(frame: CGRect(x: 0, y: 0, width: 415, height: 40))
+        
+        for alphabetButton in alphabetButtons {
+            alphabetRow.addSubview(alphabetButton)
+        }
+        
+        self.view.addSubview(alphabetRow)
+        addConstraints(buttons: alphabetButtons, containingView: alphabetRow)
+    }
+    
+    func createButtons(titles: [String]) -> [UIButton] {
+        var buttons = [UIButton!]()
+        
+        for title in titles {
+            // Initialize the button.
+            let button = UIButton(type: .system)
+            button.setTitle(title, for: .normal)
+            button.sizeToFit()
+            button.translatesAutoresizingMaskIntoConstraints = false
+            
+            // Adding a callback.
+            button.addTarget(self, action: #selector(KeyboardViewController.didTapButton(sender:)), for: .touchUpInside)
+            
+            
+            // Make the font bigger.
+            // button.titleLabel!.font = UIFont.systemFont(ofSize: 32)
+            
+            // add rounded corners
+            button.backgroundColor = UIColor(white: 0.9, alpha: 1)
+            button.layer.cornerRadius = 5
+            button.layer.borderWidth = 1
+            button.layer.borderColor = UIColor.black.cgColor
+            
+            /*
+            view.addSubview(button)
+            
+            // Makes the vertical centers equal.
+            let dotCenterYConstraint = NSLayoutConstraint(item: button, attribute: .centerY, relatedBy: .equal, toItem: view, attribute: .centerY, multiplier: 1.0, constant: 0)
+            // Set the button 50 points to the left (-) of the horizontal center.
+            let dotCenterXConstraint = NSLayoutConstraint(item: button, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1.0, constant: -50)
+            
+            view.addConstraints([dotCenterXConstraint, dotCenterYConstraint])
+            */
+            
+            buttons.append(button)
+        }
+        
+        return buttons
+    }
+    
+    func didTapButton(sender: AnyObject?) {
+        let button = sender as! UIButton
+        let title = button.title(for: .normal)
+        
+        // If it is the "delete" unicode character.
+        if title == "\u{232b}" {
+            (textDocumentProxy as UIKeyInput).deleteBackward()
+        }
+        else {
+            (textDocumentProxy as UIKeyInput).insertText(title!)
+        }
+    }
+    
+    func addConstraints(buttons: [UIButton], containingView: UIView){
+        for (index, button) in buttons.enumerated() {
+            let topConstraint = NSLayoutConstraint(item: button, attribute: .top, relatedBy: .equal, toItem: containingView, attribute: .top, multiplier: 1.0, constant: 1)
+            let bottomConstraint = NSLayoutConstraint(item: button, attribute: .bottom, relatedBy: .equal, toItem: containingView, attribute: .bottom, multiplier: 1.0, constant: -1)
+            var leftConstraint : NSLayoutConstraint!
+            
+            if index == 0 {
+                leftConstraint = NSLayoutConstraint(item: button, attribute: .left, relatedBy: .equal, toItem: containingView, attribute: .left, multiplier: 1.0, constant: 1)
+            }
+            else {
+                leftConstraint = NSLayoutConstraint(item: button, attribute: .left, relatedBy: .equal, toItem: buttons[index-1], attribute: .right, multiplier: 1.0, constant: 1)
+                let widthConstraint = NSLayoutConstraint(item: buttons[0], attribute: .width, relatedBy: .equal, toItem: button, attribute: .width, multiplier: 1.0, constant: 0)
+                containingView.addConstraint(widthConstraint)
+            }
+            
+            var rightConstraint : NSLayoutConstraint!
+            
+            if index == buttons.count - 1 {
+                rightConstraint = NSLayoutConstraint(item: button, attribute: .right, relatedBy: .equal, toItem: containingView, attribute: .right, multiplier: 1.0, constant: -1)
+            }
+            else {
+                rightConstraint = NSLayoutConstraint(item: button, attribute: .right, relatedBy: .equal, toItem: buttons[index+1], attribute: .left, multiplier: 1.0, constant: -1)
+            }
+            
+            containingView.addConstraints([topConstraint, bottomConstraint, rightConstraint, leftConstraint])
+        }
     }
     
     override func didReceiveMemoryWarning() {
