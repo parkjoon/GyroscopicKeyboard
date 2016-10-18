@@ -161,10 +161,12 @@
 				TargetAttributes = {
 					2951B3271DB6876700FDF888 = {
 						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = 6GK25Y9V3D;
 						ProvisioningStyle = Automatic;
 					};
 					2951B3401DB689DA00FDF888 = {
 						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = 6GK25Y9V3D;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -354,6 +356,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 6GK25Y9V3D;
 				INFOPLIST_FILE = GyroscopicKeyboard/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = parkjoon.GyroscopicKeyboard;
@@ -367,6 +370,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 6GK25Y9V3D;
 				INFOPLIST_FILE = GyroscopicKeyboard/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = parkjoon.GyroscopicKeyboard;
@@ -378,6 +382,7 @@
 		2951B34A1DB689DA00FDF888 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEVELOPMENT_TEAM = 6GK25Y9V3D;
 				INFOPLIST_FILE = Keyboard/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = parkjoon.GyroscopicKeyboard.Keyboard;
@@ -390,6 +395,7 @@
 		2951B34B1DB689DA00FDF888 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEVELOPMENT_TEAM = 6GK25Y9V3D;
 				INFOPLIST_FILE = Keyboard/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = parkjoon.GyroscopicKeyboard.Keyboard;
