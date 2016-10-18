@@ -31,15 +31,20 @@ class KeyboardViewController: UIInputViewController {
     }
 
     func selectMovement() {
-        let rawx = manager.deviceMotion?.gravity.x
-        let rawy = manager.deviceMotion?.gravity.y
-        let angle = atan2(rawx!, rawy!)
-        if angle > 0 {
+//        let rawx = manager.deviceMotion?.gravity.x
+//        let rawy = manager.deviceMotion?.gravity.y
+//         let angle = atan2(rawx!, rawy!)
+//        NSLog(NSString(format: "%f", rawx) as String)
+//        NSLog(String(format:"%f", rawy!))
+        
+        /*
+        if manager.gyroData!.rotationRate.x > 0.0 {
             selectRight()
         }
         else {
             selectLeft()
         }
+        */
     }
     
     // Called once in 'viewDidLoad()' to render all the keyboard buttons.
@@ -51,11 +56,17 @@ class KeyboardViewController: UIInputViewController {
         // Set the initially selected character.
         selectButton(rowIndex: 0, buttonIndex: 6)
         if manager.isGyroAvailable && manager.isDeviceMotionAvailable {
-            manager.deviceMotionUpdateInterval = 0.1
             manager.startDeviceMotionUpdates()
-            manager.gyroUpdateInterval = 0.1
+            manager.deviceMotionUpdateInterval = 0.1
             manager.startGyroUpdates()
-            Timer.scheduledTimer(timeInterval: 0.15, target: self, selector: #selector(KeyboardViewController.selectMovement), userInfo: nil, repeats: true)
+            manager.gyroUpdateInterval = 0.1
+            if (manager.isGyroActive && manager.isDeviceMotionActive) {
+                Timer.scheduledTimer(timeInterval: 0.15, target: self, selector: #selector(KeyboardViewController.selectMovement), userInfo: nil, repeats: true)
+            }
+            else {
+                //did not activate gyro and motion update properly
+                selectLeft()
+            }
         }
         else {
             // Keyboard won't work for this device.
