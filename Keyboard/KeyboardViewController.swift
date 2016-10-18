@@ -231,8 +231,45 @@ class KeyboardViewController: UIInputViewController {
         // 3. Add action to clickView.
         let gesture = UITapGestureRecognizer(target: self, action: #selector(insertSelectedButton (_:)))
         clickView.addGestureRecognizer(gesture)
+        
+        //add swipes
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe(gesture:)))
+
+        swipeDown.direction = UISwipeGestureRecognizerDirection.down
+        let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe(gesture:)))
+        swipeUp.direction = UISwipeGestureRecognizerDirection.up
+        self.view.addGestureRecognizer(swipeDown)
+        self.view.addGestureRecognizer(swipeUp)
     }
     
+    func handleSwipe(gesture: UISwipeGestureRecognizer){
+        switch gesture.direction {
+        case UISwipeGestureRecognizerDirection.up:
+            toCaps()
+        case UISwipeGestureRecognizerDirection.down:
+            toLower()
+        default:
+            break
+        }
+        
+        print ("swipe")
+    }
+    func toCaps(){
+        for row in keyboardRows {
+            for button in row{
+                let cap = button.currentTitle?.uppercased()
+                button.setTitle(cap, for: .normal)
+            }
+        }
+    }
+    func toLower(){
+        for row in keyboardRows {
+            for button in row{
+                let cap = button.currentTitle?.lowercased()
+                button.setTitle(cap, for: .normal)
+            }
+        }
+    }
     func insertSelectedButton(_ sender: UITapGestureRecognizer){
         let selectedCharacter = keyboardRows[selectedRowIndex][selectedButtonIndex].title(for: .normal)
         
