@@ -4,26 +4,34 @@
 //
 //  Created by Joon Park on 10/18/16.
 //
-//
 
 import UIKit
 
 class KeyboardViewController: UIInputViewController {
-
     @IBOutlet var nextKeyboardButton: UIButton!
     
     override func updateViewConstraints() {
         super.updateViewConstraints()
         
-        // Add custom view sizing constraints here
+        // Add custom view sizing constraints here.
     }
     
+    // Executed once the view finishes loading.
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Perform custom UI setup here
+        addKeyboardButtons()
+    }
+    
+    // Called once in 'viewDidLoad()' to render all the keyboard buttons.
+    func addKeyboardButtons() {
+        addNextKeyboardButton()
+    }
+    
+    // Renders a button to switch to the next system keyboard.
+    func addNextKeyboardButton() {
         self.nextKeyboardButton = UIButton(type: .system)
-        
+
         self.nextKeyboardButton.setTitle(NSLocalizedString("Next Keyboard", comment: "Title for 'Next Keyboard' button"), for: [])
         self.nextKeyboardButton.sizeToFit()
         self.nextKeyboardButton.translatesAutoresizingMaskIntoConstraints = false
@@ -38,7 +46,7 @@ class KeyboardViewController: UIInputViewController {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated
+        // Dispose of any resources that can be recreated.
     }
     
     override func textWillChange(_ textInput: UITextInput?) {
@@ -52,10 +60,10 @@ class KeyboardViewController: UIInputViewController {
         let proxy = self.textDocumentProxy
         if proxy.keyboardAppearance == UIKeyboardAppearance.dark {
             textColor = UIColor.white
-        } else {
+        }
+        else {
             textColor = UIColor.black
         }
         self.nextKeyboardButton.setTitleColor(textColor, for: [])
     }
-
 }
