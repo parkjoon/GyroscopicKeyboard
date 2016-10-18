@@ -205,15 +205,15 @@ class KeyboardViewController: UIInputViewController {
     }
     
     func addClickArea() {
-        // 1.create UIView programmetically
+        // 1. Create UIView programmetically.
         let clickView = UIView(frame: CGRect(x: 0, y: 40, width: 415, height: 155))
         
         clickView.backgroundColor = UIColor.lightGray
         
-        // 2.add myView to UIView hierarchy
+        // 2. Add myView to UIView hierarchy.
         view.addSubview(clickView)
         
-        // 3. add action to myView
+        // 3. Add action to clickView.
         let gesture = UITapGestureRecognizer(target: self, action: #selector(insertSelectedButton (_:)))
         clickView.addGestureRecognizer(gesture)
     }
