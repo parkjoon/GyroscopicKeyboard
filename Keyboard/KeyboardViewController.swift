@@ -44,8 +44,7 @@ class KeyboardViewController: UIInputViewController {
 
         // Set the initially selected character.
         selectButton(rowIndex: 0, buttonIndex: 6)
-        
-        if manager.isGyroAvailable {
+        if manager.isGyroAvailable && manager.isDeviceMotionAvailable {
             manager.deviceMotionUpdateInterval = 0.1
             manager.startDeviceMotionUpdates()
             manager.gyroUpdateInterval = 0.1
