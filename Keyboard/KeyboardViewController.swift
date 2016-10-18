@@ -50,7 +50,6 @@ class KeyboardViewController: UIInputViewController {
             manager.gyroUpdateInterval = 0.1
             manager.startGyroUpdates()
             _ = Timer.scheduledTimer(timeInterval: 0.15, target:self, selector: #selector(KeyboardViewController.selectMovement), userInfo: nil, repeats: true)
-            //if manager.gyroData!.rotationRate.x > Double(0) {
         }
         else {
             //keyboard wont work for this device
