@@ -32,9 +32,9 @@ class KeyboardViewController: UIInputViewController {
     }
 
     func selectMovement() {
-        let rawx = manager.deviceMotion?.gravity.x
+        /*let rawx = manager.deviceMotion?.gravity.x
         let rawy = manager.deviceMotion?.gravity.y
-        _ = atan2(rawx!, rawy!)
+        _ = atan2(rawx!, rawy!)*/
     }
     
     // Called once in 'viewDidLoad()' to render all the keyboard buttons.
@@ -51,13 +51,12 @@ class KeyboardViewController: UIInputViewController {
             manager.startDeviceMotionUpdates()
             manager.gyroUpdateInterval = 0.1
             manager.startGyroUpdates()
+            _ = Timer.scheduledTimer(timeInterval: 0.15, target:self, selector: #selector(KeyboardViewController.selectMovement), userInfo: nil, repeats: true)
             //if manager.gyroData!.rotationRate.x > Double(0) {
         }
         else {
             //keyboard wont work for this device
         }
-        
-        _ = Timer.scheduledTimer(timeInterval: 0.15, target:self, selector: #selector(KeyboardViewController.selectMovement), userInfo: nil, repeats: true)
     }
 
     // Renders a button to switch to the next system keyboard.
