@@ -31,9 +31,15 @@ class KeyboardViewController: UIInputViewController {
     }
 
     func selectMovement() {
-        /*let rawx = manager.deviceMotion?.gravity.x
+        let rawx = manager.deviceMotion?.gravity.x
         let rawy = manager.deviceMotion?.gravity.y
-        _ = atan2(rawx!, rawy!)*/
+        let angle = atan2(rawx!, rawy!)
+        if angle > 0 {
+            selectRight()
+        }
+        else {
+            selectLeft()
+        }
     }
     
     // Called once in 'viewDidLoad()' to render all the keyboard buttons.
