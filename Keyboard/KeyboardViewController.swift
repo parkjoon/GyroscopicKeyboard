@@ -28,6 +28,11 @@ class KeyboardViewController: UIInputViewController {
     func addKeyboardButtons() {
         addNextKeyboardButton()
         addAlphabetButtons()
+        
+        // "Select" the first button in the row.
+        // THIS IS GOING TO CHANGE DRAMATICALLY! WILL USE DIFFERENT WAY TO KEEP TRACK OF WHICH CHARACTER IS SELECTED!
+        alphabetButtons[0].layer.borderWidth = 1
+        alphabetButtons[0].layer.borderColor = UIColor.black.cgColor
     }
     
     // Renders a button to switch to the next system keyboard.
@@ -79,8 +84,6 @@ class KeyboardViewController: UIInputViewController {
             // add rounded corners
             button.backgroundColor = UIColor(white: 0.9, alpha: 1)
             button.layer.cornerRadius = 5
-            button.layer.borderWidth = 1
-            button.layer.borderColor = UIColor.black.cgColor
             
             /*
             view.addSubview(button)
