@@ -30,8 +30,8 @@ class KeyboardViewController: UIInputViewController {
         addNextKeyboardButton()
         addAlphabetButtons()
         
-        // Set the [0][0] as the initially selected character.
-        selectButton(rowIndex: 0, buttonIndex: 0)
+        // Set the initially selected character.
+        selectButton(rowIndex: 0, buttonIndex: 6)
     }
     
     // Renders a button to switch to the next system keyboard.
@@ -85,6 +85,8 @@ class KeyboardViewController: UIInputViewController {
             button.backgroundColor = UIColor(white: 0.9, alpha: 1)
             button.layer.cornerRadius = 5
             
+            button.layer.borderColor = UIColor.black.cgColor
+            
             buttons.append(button)
         }
         
@@ -98,7 +100,6 @@ class KeyboardViewController: UIInputViewController {
         // If it is the "delete" unicode character.
         if title == "\u{232b}" {
             (textDocumentProxy as UIKeyInput).deleteBackward()
-            // selectButton(rowIndex: selectedRowIndex, buttonIndex: selectedButtonIndex+1) // TODO: DELETE
         }
         else {
             (textDocumentProxy as UIKeyInput).insertText(title!)
@@ -139,7 +140,26 @@ class KeyboardViewController: UIInputViewController {
         
         // Give the newly selected button an outline.
         keyboardRows[selectedRowIndex][selectedButtonIndex].layer.borderWidth = 1
-        keyboardRows[selectedRowIndex][selectedButtonIndex].layer.borderColor = UIColor.black.cgColor
+    }
+    
+    func selectLeft(num: Int = 1) {
+        deselectButton(rowIndex: selectedRowIndex, buttonIndex: selectedButtonIndex)
+        
+        var newIndex = selectedButtonIndex - num;
+        newIndex = newIndex >= 0 ? newIndex : 0;
+        selectButton(rowIndex: selectedRowIndex, buttonIndex: newIndex)
+    }
+    
+    func selectRight(num: Int = 1) {
+        deselectButton(rowIndex: selectedRowIndex, buttonIndex: selectedButtonIndex)
+        
+        var newIndex = selectedButtonIndex + num;
+        newIndex = newIndex < keyboardRows[selectedRowIndex].count ? newIndex : keyboardRows[selectedRowIndex].count;
+        selectButton(rowIndex: selectedRowIndex, buttonIndex: newIndex)
+    }
+    
+    func deselectButton(rowIndex: Int, buttonIndex: Int) {
+        keyboardRows[rowIndex][buttonIndex].layer.borderWidth = 0
     }
     
     override func didReceiveMemoryWarning() {
