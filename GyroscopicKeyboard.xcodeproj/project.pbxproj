@@ -12,7 +12,33 @@
 		2951B3311DB6876700FDF888 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2951B32F1DB6876700FDF888 /* Main.storyboard */; };
 		2951B3331DB6876700FDF888 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2951B3321DB6876700FDF888 /* Assets.xcassets */; };
 		2951B3361DB6876700FDF888 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2951B3341DB6876700FDF888 /* LaunchScreen.storyboard */; };
+		2951B3441DB689DA00FDF888 /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2951B3431DB689DA00FDF888 /* KeyboardViewController.swift */; };
+		2951B3481DB689DA00FDF888 /* Keyboard.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 2951B3411DB689DA00FDF888 /* Keyboard.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2951B3461DB689DA00FDF888 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2951B3201DB6876700FDF888 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2951B3401DB689DA00FDF888;
+			remoteInfo = Keyboard;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2951B34C1DB689DA00FDF888 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				2951B3481DB689DA00FDF888 /* Keyboard.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		2951B3281DB6876700FDF888 /* GyroscopicKeyboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GyroscopicKeyboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -22,10 +48,20 @@
 		2951B3321DB6876700FDF888 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2951B3351DB6876700FDF888 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2951B3371DB6876700FDF888 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2951B3411DB689DA00FDF888 /* Keyboard.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Keyboard.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		2951B3431DB689DA00FDF888 /* KeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardViewController.swift; sourceTree = "<group>"; };
+		2951B3451DB689DA00FDF888 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		2951B3251DB6876700FDF888 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2951B33E1DB689DA00FDF888 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -39,6 +75,7 @@
 			isa = PBXGroup;
 			children = (
 				2951B32A1DB6876700FDF888 /* GyroscopicKeyboard */,
+				2951B3421DB689DA00FDF888 /* Keyboard */,
 				2951B3291DB6876700FDF888 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -47,6 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				2951B3281DB6876700FDF888 /* GyroscopicKeyboard.app */,
+				2951B3411DB689DA00FDF888 /* Keyboard.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -64,6 +102,15 @@
 			path = GyroscopicKeyboard;
 			sourceTree = "<group>";
 		};
+		2951B3421DB689DA00FDF888 /* Keyboard */ = {
+			isa = PBXGroup;
+			children = (
+				2951B3431DB689DA00FDF888 /* KeyboardViewController.swift */,
+				2951B3451DB689DA00FDF888 /* Info.plist */,
+			);
+			path = Keyboard;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -74,15 +121,34 @@
 				2951B3241DB6876700FDF888 /* Sources */,
 				2951B3251DB6876700FDF888 /* Frameworks */,
 				2951B3261DB6876700FDF888 /* Resources */,
+				2951B34C1DB689DA00FDF888 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				2951B3471DB689DA00FDF888 /* PBXTargetDependency */,
 			);
 			name = GyroscopicKeyboard;
 			productName = GyroscopicKeyboard;
 			productReference = 2951B3281DB6876700FDF888 /* GyroscopicKeyboard.app */;
 			productType = "com.apple.product-type.application";
+		};
+		2951B3401DB689DA00FDF888 /* Keyboard */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2951B3491DB689DA00FDF888 /* Build configuration list for PBXNativeTarget "Keyboard" */;
+			buildPhases = (
+				2951B33D1DB689DA00FDF888 /* Sources */,
+				2951B33E1DB689DA00FDF888 /* Frameworks */,
+				2951B33F1DB689DA00FDF888 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Keyboard;
+			productName = Keyboard;
+			productReference = 2951B3411DB689DA00FDF888 /* Keyboard.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -94,6 +160,10 @@
 				LastUpgradeCheck = 0800;
 				TargetAttributes = {
 					2951B3271DB6876700FDF888 = {
+						CreatedOnToolsVersion = 8.0;
+						ProvisioningStyle = Automatic;
+					};
+					2951B3401DB689DA00FDF888 = {
 						CreatedOnToolsVersion = 8.0;
 						ProvisioningStyle = Automatic;
 					};
@@ -113,6 +183,7 @@
 			projectRoot = "";
 			targets = (
 				2951B3271DB6876700FDF888 /* GyroscopicKeyboard */,
+				2951B3401DB689DA00FDF888 /* Keyboard */,
 			);
 		};
 /* End PBXProject section */
@@ -128,6 +199,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2951B33F1DB689DA00FDF888 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -140,7 +218,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2951B33D1DB689DA00FDF888 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2951B3441DB689DA00FDF888 /* KeyboardViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2951B3471DB689DA00FDF888 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2951B3401DB689DA00FDF888 /* Keyboard */;
+			targetProxy = 2951B3461DB689DA00FDF888 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		2951B32F1DB6876700FDF888 /* Main.storyboard */ = {
@@ -258,6 +352,7 @@
 		2951B33B1DB6876700FDF888 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = GyroscopicKeyboard/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -270,11 +365,36 @@
 		2951B33C1DB6876700FDF888 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = GyroscopicKeyboard/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = parkjoon.GyroscopicKeyboard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		2951B34A1DB689DA00FDF888 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = Keyboard/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = parkjoon.GyroscopicKeyboard.Keyboard;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		2951B34B1DB689DA00FDF888 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = Keyboard/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = parkjoon.GyroscopicKeyboard.Keyboard;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -296,6 +416,14 @@
 			buildConfigurations = (
 				2951B33B1DB6876700FDF888 /* Debug */,
 				2951B33C1DB6876700FDF888 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		2951B3491DB689DA00FDF888 /* Build configuration list for PBXNativeTarget "Keyboard" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2951B34A1DB689DA00FDF888 /* Debug */,
+				2951B34B1DB689DA00FDF888 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
