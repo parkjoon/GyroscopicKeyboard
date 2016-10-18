@@ -11,7 +11,8 @@ import CoreMotion
 
 
 class KeyboardViewController: UIInputViewController {
-    @IBOutlet var nextKeyboardButton: UIButton!
+    var nextKeyboardButton: UIButton!
+    var hideKeyboardButton: UIButton!
     var keyboardRows: [[UIButton]] = [] // An array of arrays of UIButtons: [Row][Button]
 
     var selectedRowIndex = 0
@@ -27,6 +28,7 @@ class KeyboardViewController: UIInputViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         addKeyboardButtons()
+        addClickArea()
     }
 
     func selectMovement() {
@@ -38,6 +40,7 @@ class KeyboardViewController: UIInputViewController {
     // Called once in 'viewDidLoad()' to render all the keyboard buttons.
     func addKeyboardButtons() {
         addNextKeyboardButton()
+        addHideKeyboardButton()
         addAlphabetButtons()
 
         // Set the initially selected character.
@@ -59,18 +62,34 @@ class KeyboardViewController: UIInputViewController {
 
     // Renders a button to switch to the next system keyboard.
     func addNextKeyboardButton() {
-        self.nextKeyboardButton = UIButton(type: .system)
-
-        self.nextKeyboardButton.setTitle(NSLocalizedString("Next Keyboard", comment: "Title for 'Next Keyboard' button"), for: [])
-        self.nextKeyboardButton.sizeToFit()
-        self.nextKeyboardButton.translatesAutoresizingMaskIntoConstraints = false
-
-        self.nextKeyboardButton.addTarget(self, action: #selector(handleInputModeList(from:with:)), for: .allTouchEvents)
-
-        self.view.addSubview(self.nextKeyboardButton)
-
-        self.nextKeyboardButton.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.nextKeyboardButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        nextKeyboardButton = UIButton(type: .system)
+        nextKeyboardButton.setTitle("Next Keyboard", for: [])
+        nextKeyboardButton.sizeToFit()
+        nextKeyboardButton.translatesAutoresizingMaskIntoConstraints = false
+        nextKeyboardButton.backgroundColor = UIColor(white: 0.9, alpha: 1)
+        
+        nextKeyboardButton.addTarget(self, action: #selector(handleInputModeList(from:with:)), for: .allTouchEvents)
+        
+        view.addSubview(self.nextKeyboardButton)
+        
+        nextKeyboardButton.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        nextKeyboardButton.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+    }
+    
+    func addHideKeyboardButton() {
+        hideKeyboardButton = UIButton(type: .system)
+        
+        hideKeyboardButton.setTitle("Hide Keyboard", for: .normal)
+        hideKeyboardButton.sizeToFit()
+        hideKeyboardButton.translatesAutoresizingMaskIntoConstraints = false
+        hideKeyboardButton.backgroundColor = UIColor(white: 0.9, alpha: 1)
+        
+        hideKeyboardButton.addTarget(self, action: #selector(UIInputViewController.dismissKeyboard), for: .touchUpInside)
+        
+        view.addSubview(hideKeyboardButton)
+        
+        hideKeyboardButton.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        hideKeyboardButton.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
 
     func addAlphabetButtons() {
@@ -184,7 +203,33 @@ class KeyboardViewController: UIInputViewController {
     func deselectButton(rowIndex: Int, buttonIndex: Int) {
         keyboardRows[rowIndex][buttonIndex].layer.borderWidth = 0
     }
-
+    
+    func addClickArea() {
+        // 1.create UIView programmetically
+        let clickView = UIView(frame: CGRect(x: 0, y: 40, width: 415, height: 155))
+        
+        clickView.backgroundColor = UIColor.lightGray
+        
+        // 2.add myView to UIView hierarchy
+        view.addSubview(clickView)
+        
+        // 3. add action to myView
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(insertSelectedButton (_:)))
+        clickView.addGestureRecognizer(gesture)
+    }
+    
+    func insertSelectedButton(_ sender: UITapGestureRecognizer){
+        let selectedCharacter = keyboardRows[selectedRowIndex][selectedButtonIndex].title(for: .normal)
+        
+        // If it is the "delete" unicode character.
+        if selectedCharacter == "\u{232b}" {
+            (textDocumentProxy as UIKeyInput).deleteBackward()
+        }
+        else {
+            (textDocumentProxy as UIKeyInput).insertText(selectedCharacter!)
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
