@@ -8,7 +8,8 @@
 import UIKit
 
 class KeyboardViewController: UIInputViewController {
-    @IBOutlet var nextKeyboardButton: UIButton!
+    var nextKeyboardButton: UIButton!
+    var hideKeyboardButton: UIButton!
     var keyboardRows: [[UIButton]] = [] // An array of arrays of UIButtons: [Row][Button]
     
     var selectedRowIndex = 0
@@ -28,6 +29,7 @@ class KeyboardViewController: UIInputViewController {
     // Called once in 'viewDidLoad()' to render all the keyboard buttons.
     func addKeyboardButtons() {
         addNextKeyboardButton()
+        addHideKeyboardButton()
         addAlphabetButtons()
         
         // Set the initially selected character.
@@ -48,6 +50,23 @@ class KeyboardViewController: UIInputViewController {
         
         self.nextKeyboardButton.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.nextKeyboardButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+    }
+    
+    func addHideKeyboardButton() {
+        hideKeyboardButton = UIButton(type: .system)
+        
+        hideKeyboardButton.setTitle("Hide Keyboard", for: .normal)
+        hideKeyboardButton.sizeToFit()
+        hideKeyboardButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        hideKeyboardButton.addTarget(self, action: #selector(UIInputViewController.dismissKeyboard), for: .touchUpInside)
+        
+        view.addSubview(hideKeyboardButton)
+        
+        let rightSideConstraint = NSLayoutConstraint(item: hideKeyboardButton, attribute: .right, relatedBy: .equal, toItem: view, attribute: .right, multiplier: 1.0, constant: -10.0)
+        let bottomConstraint = NSLayoutConstraint(item: hideKeyboardButton, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1.0, constant: -10.0)
+        
+        view.addConstraints([rightSideConstraint, bottomConstraint])
     }
     
     func addAlphabetButtons() {
