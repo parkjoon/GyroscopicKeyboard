@@ -48,8 +48,8 @@ class KeyboardViewController: UIInputViewController {
         
         view.addSubview(self.nextKeyboardButton)
         
-        nextKeyboardButton.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        nextKeyboardButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        nextKeyboardButton.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        nextKeyboardButton.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
     
     func addHideKeyboardButton() {
