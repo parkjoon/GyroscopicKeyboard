@@ -9,18 +9,19 @@ import UIKit
 
 class KeyboardViewController: UIInputViewController {
     @IBOutlet var nextKeyboardButton: UIButton!
-    @IBOutlet var alphabetButtons: [UIButton] = []
+    var keyboardRows: [[UIButton]] = [] // An array of arrays of UIButtons: [Row][Button]
+    
+    var selectedRowIndex = 0
+    var selectedButtonIndex = 0
     
     override func updateViewConstraints() {
         super.updateViewConstraints()
-        
         // Add custom view sizing constraints here.
     }
     
     // Executed once the view finishes loading.
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         addKeyboardButtons()
     }
     
@@ -29,10 +30,8 @@ class KeyboardViewController: UIInputViewController {
         addNextKeyboardButton()
         addAlphabetButtons()
         
-        // "Select" the first button in the row.
-        // THIS IS GOING TO CHANGE DRAMATICALLY! WILL USE DIFFERENT WAY TO KEEP TRACK OF WHICH CHARACTER IS SELECTED!
-        alphabetButtons[0].layer.borderWidth = 1
-        alphabetButtons[0].layer.borderColor = UIColor.black.cgColor
+        // Set the [0][0] as the initially selected character.
+        selectButton(rowIndex: 0, buttonIndex: 0)
     }
     
     // Renders a button to switch to the next system keyboard.
@@ -53,7 +52,7 @@ class KeyboardViewController: UIInputViewController {
     
     func addAlphabetButtons() {
         let buttonTitles = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "g", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "\u{232b}"]
-        alphabetButtons = createButtons(titles: buttonTitles)
+        let alphabetButtons = createButtons(titles: buttonTitles)
         let alphabetRow = UIView(frame: CGRect(x: 0, y: 0, width: 415, height: 40))
         
         for alphabetButton in alphabetButtons {
@@ -62,6 +61,8 @@ class KeyboardViewController: UIInputViewController {
         
         self.view.addSubview(alphabetRow)
         addConstraints(buttons: alphabetButtons, containingView: alphabetRow)
+        
+        keyboardRows.append(alphabetButtons)
     }
     
     func createButtons(titles: [String]) -> [UIButton] {
@@ -77,24 +78,12 @@ class KeyboardViewController: UIInputViewController {
             // Adding a callback.
             button.addTarget(self, action: #selector(KeyboardViewController.didTapButton(sender:)), for: .touchUpInside)
             
-            
             // Make the font bigger.
             // button.titleLabel!.font = UIFont.systemFont(ofSize: 32)
             
-            // add rounded corners
+            // Add rounded corners.
             button.backgroundColor = UIColor(white: 0.9, alpha: 1)
             button.layer.cornerRadius = 5
-            
-            /*
-            view.addSubview(button)
-            
-            // Makes the vertical centers equal.
-            let dotCenterYConstraint = NSLayoutConstraint(item: button, attribute: .centerY, relatedBy: .equal, toItem: view, attribute: .centerY, multiplier: 1.0, constant: 0)
-            // Set the button 50 points to the left (-) of the horizontal center.
-            let dotCenterXConstraint = NSLayoutConstraint(item: button, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1.0, constant: -50)
-            
-            view.addConstraints([dotCenterXConstraint, dotCenterYConstraint])
-            */
             
             buttons.append(button)
         }
@@ -109,6 +98,7 @@ class KeyboardViewController: UIInputViewController {
         // If it is the "delete" unicode character.
         if title == "\u{232b}" {
             (textDocumentProxy as UIKeyInput).deleteBackward()
+            // selectButton(rowIndex: selectedRowIndex, buttonIndex: selectedButtonIndex+1) // TODO: DELETE
         }
         else {
             (textDocumentProxy as UIKeyInput).insertText(title!)
@@ -131,7 +121,6 @@ class KeyboardViewController: UIInputViewController {
             }
             
             var rightConstraint : NSLayoutConstraint!
-            
             if index == buttons.count - 1 {
                 rightConstraint = NSLayoutConstraint(item: button, attribute: .right, relatedBy: .equal, toItem: containingView, attribute: .right, multiplier: 1.0, constant: -1)
             }
@@ -141,6 +130,16 @@ class KeyboardViewController: UIInputViewController {
             
             containingView.addConstraints([topConstraint, bottomConstraint, rightConstraint, leftConstraint])
         }
+    }
+    
+    func selectButton(rowIndex: Int, buttonIndex: Int) {
+        // Update the class-wide index variables.
+        selectedRowIndex = rowIndex
+        selectedButtonIndex = buttonIndex
+        
+        // Give the newly selected button an outline.
+        keyboardRows[selectedRowIndex][selectedButtonIndex].layer.borderWidth = 1
+        keyboardRows[selectedRowIndex][selectedButtonIndex].layer.borderColor = UIColor.black.cgColor
     }
     
     override func didReceiveMemoryWarning() {
@@ -154,7 +153,6 @@ class KeyboardViewController: UIInputViewController {
     
     override func textDidChange(_ textInput: UITextInput?) {
         // The app has just changed the document's contents, the document context has been updated.
-        
         var textColor: UIColor
         let proxy = self.textDocumentProxy
         if proxy.keyboardAppearance == UIKeyboardAppearance.dark {
