@@ -31,20 +31,14 @@ class KeyboardViewController: UIInputViewController {
     }
 
     func selectMovement() {
-//        let rawx = manager.deviceMotion?.gravity.x
-//        let rawy = manager.deviceMotion?.gravity.y
-//         let angle = atan2(rawx!, rawy!)
-//        NSLog(NSString(format: "%f", rawx) as String)
-//        NSLog(String(format:"%f", rawy!))
-        
-        /*
-        if manager.gyroData!.rotationRate.x > 0.0 {
-            selectRight()
+        if let data = manager.accelerometerData {
+            if data.acceleration.x < -0.2 {
+                selectLeft()
+            }
+            else if data.acceleration.x > 0.2 {
+                selectRight()
+            }
         }
-        else {
-            selectLeft()
-        }
-        */
     }
     
     // Called once in 'viewDidLoad()' to render all the keyboard buttons.
@@ -54,14 +48,16 @@ class KeyboardViewController: UIInputViewController {
         addAlphabetButtons()
 
         // Set the initially selected character.
-        selectButton(rowIndex: 0, buttonIndex: 6)
-        if manager.isGyroAvailable && manager.isDeviceMotionAvailable {
+        selectButton(rowIndex: 0, buttonIndex: 0)
+        if manager.isGyroAvailable && manager.isDeviceMotionAvailable && manager.isAccelerometerAvailable {
+            manager.startAccelerometerUpdates()
+            manager.accelerometerUpdateInterval = 0.1
             manager.startDeviceMotionUpdates()
             manager.deviceMotionUpdateInterval = 0.1
             manager.startGyroUpdates()
             manager.gyroUpdateInterval = 0.1
-            if (manager.isGyroActive && manager.isDeviceMotionActive) {
-                Timer.scheduledTimer(timeInterval: 0.15, target: self, selector: #selector(KeyboardViewController.selectMovement), userInfo: nil, repeats: true)
+            if (manager.isGyroActive && manager.isDeviceMotionActive && manager.isAccelerometerActive) {
+                Timer.scheduledTimer(timeInterval: 0.25, target: self, selector: #selector(KeyboardViewController.selectMovement), userInfo: nil, repeats: true)
             }
             else {
                 //did not activate gyro and motion update properly
@@ -108,7 +104,7 @@ class KeyboardViewController: UIInputViewController {
     func addAlphabetButtons() {
         let buttonTitles = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "g", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "\u{232b}"]
         let alphabetButtons = createButtons(titles: buttonTitles)
-        let alphabetRow = UIView(frame: CGRect(x: 0, y: 0, width: 415, height: 40))
+        let alphabetRow = UIView(frame: CGRect(x: 0, y: 0, width: 375, height: 40))
 
         for alphabetButton in alphabetButtons {
             alphabetRow.addSubview(alphabetButton)
