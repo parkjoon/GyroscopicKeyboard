@@ -8,6 +8,7 @@
 import UIKit
 import CoreMotion
 import AudioToolbox
+import AVFoundation
 
 class KeyboardViewController: UIInputViewController {
     var nextKeyboardButton: UIButton!
@@ -200,6 +201,7 @@ class KeyboardViewController: UIInputViewController {
         newIndex = newIndex >= 0 ? newIndex : 0;
         selectButton(rowIndex: selectedRowIndex, buttonIndex: newIndex)
         AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        AudioServicesPlayAlertSound(1016)
     }
 
     func selectRight(num: Int = 1) {
@@ -209,6 +211,7 @@ class KeyboardViewController: UIInputViewController {
         newIndex = newIndex < keyboardRows[selectedRowIndex].count ? newIndex : keyboardRows[selectedRowIndex].count;
         selectButton(rowIndex: selectedRowIndex, buttonIndex: newIndex)
         AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        AudioServicesPlayAlertSound(1016)
     }
 
     func deselectButton(rowIndex: Int, buttonIndex: Int) {
