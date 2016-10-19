@@ -103,7 +103,7 @@ class KeyboardViewController: UIInputViewController {
     }
 
     func addAlphabetButtons() {
-        let buttonTitles = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "g", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "\u{232b}"]
+        let buttonTitles = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "\u{232b}"]
         let alphabetButtons = createButtons(titles: buttonTitles)
         let alphabetRow = UIView(frame: CGRect(x: 0, y: 0, width: 375, height: 40))
 
