@@ -142,8 +142,24 @@ class KeyboardViewController: UIInputViewController {
         let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(shiftUp))
         swipeUp.direction = UISwipeGestureRecognizerDirection.up
         
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(enterDelete))
+        swipeLeft.direction = UISwipeGestureRecognizerDirection.left
+        
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(enterSpace))
+        swipeRight.direction = UISwipeGestureRecognizerDirection.right
+        
         view.addGestureRecognizer(swipeDown)
         view.addGestureRecognizer(swipeUp)
+        view.addGestureRecognizer(swipeLeft)
+        view.addGestureRecognizer(swipeRight)
+    }
+    
+    func enterDelete() {
+        // Delete one character.
+    }
+    
+    func enterSpace() {
+        // Enter a space (' ').
     }
     
     /*
