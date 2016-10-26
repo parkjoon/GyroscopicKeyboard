@@ -28,7 +28,7 @@ class KeyboardViewController: UIInputViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         addKeyboardButtons()
-        // addClickArea()
+        addClickArea()
     }
 
     func selectMovement() {
@@ -62,7 +62,6 @@ class KeyboardViewController: UIInputViewController {
             }
             else {
                 //did not activate gyro and motion update properly
-                selectLeft()
             }
         }
         else {
