@@ -253,6 +253,7 @@ class KeyboardViewController: UIInputViewController {
         
         print ("swipe")
     }
+    
     func toCaps(){
         for row in keyboardRows {
             for button in row{
@@ -261,6 +262,7 @@ class KeyboardViewController: UIInputViewController {
             }
         }
     }
+    
     func toLower(){
         for row in keyboardRows {
             for button in row{
@@ -269,6 +271,7 @@ class KeyboardViewController: UIInputViewController {
             }
         }
     }
+    
     func insertSelectedButton(_ sender: UITapGestureRecognizer){
         let selectedCharacter = keyboardRows[selectedRowIndex][selectedButtonIndex].title(for: .normal)
         
