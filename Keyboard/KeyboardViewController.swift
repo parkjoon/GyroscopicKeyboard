@@ -28,7 +28,7 @@ class KeyboardViewController: UIInputViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         addKeyboardButtons()
-        addClickArea()
+        // addClickArea()
     }
 
     func selectMovement() {
@@ -73,7 +73,7 @@ class KeyboardViewController: UIInputViewController {
     // Renders a button to switch to the next system keyboard.
     func addNextKeyboardButton() {
         nextKeyboardButton = UIButton(type: .system)
-        nextKeyboardButton.setTitle("Next Keyboard", for: [])
+        nextKeyboardButton.setTitle("🌐", for: [])
         nextKeyboardButton.sizeToFit()
         nextKeyboardButton.translatesAutoresizingMaskIntoConstraints = false
         nextKeyboardButton.backgroundColor = UIColor(white: 0.9, alpha: 1)
