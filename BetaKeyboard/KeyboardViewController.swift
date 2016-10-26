@@ -31,11 +31,11 @@ class KeyboardViewController: UIInputViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        addNextKeyboardButton()
         keyboardRows = createKeyboardRows()
-        selectedRowIndex = 1
+        selectedRowIndex = 0
         selectedCharIndex = 0
         selectionDisplay = createSelectionDisplay()
+        addNextKeyboardButton()
     }
     
     override func didReceiveMemoryWarning() {
@@ -89,12 +89,16 @@ class KeyboardViewController: UIInputViewController {
     }
     
     func createSelectionDisplay() -> UILabel {
-        let displayLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
-        displayLabel.center = CGPoint(x: 160, y: 285)
-        displayLabel.textAlignment = .center
-        displayLabel.text = keyboardRows[selectedRowIndex][selectedCharIndex]
-        view.addSubview(displayLabel)
-        return displayLabel
+        let dynamicLabel: UILabel = UILabel()
+        let screenSize: CGRect = UIScreen.main.bounds
+        dynamicLabel.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: 200)
+        dynamicLabel.backgroundColor = UIColor.orange
+        dynamicLabel.textColor = UIColor.black
+        dynamicLabel.textAlignment = NSTextAlignment.center
+        dynamicLabel.text = keyboardRows[selectedRowIndex][selectedCharIndex]
+        dynamicLabel.font = dynamicLabel.font.withSize(200)
+        self.view.addSubview(dynamicLabel)
+        return dynamicLabel
     }
     
     func shiftLeft() {
