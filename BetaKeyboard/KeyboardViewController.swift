@@ -18,7 +18,8 @@ class KeyboardViewController: UIInputViewController {
     var keyboardRows: [[String]] = []
     var nextKeyboardButton: UIButton!
     var selectedRowIndex: Int = 0
-    var selectedButtonIndex: Int = 0
+    var selectedCharIndex: Int = 0
+    var selectionDisplay: UILabel!
     
     /*
      * Class utility functions.
@@ -33,7 +34,8 @@ class KeyboardViewController: UIInputViewController {
         addNextKeyboardButton()
         keyboardRows = createKeyboardRows()
         selectedRowIndex = 1
-        selectedButtonIndex = 0
+        selectedCharIndex = 0
+        selectionDisplay = createSelectionDisplay()
     }
     
     override func didReceiveMemoryWarning() {
@@ -86,17 +88,26 @@ class KeyboardViewController: UIInputViewController {
         return rows
     }
     
+    func createSelectionDisplay() -> UILabel {
+        let displayLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
+        displayLabel.center = CGPoint(x: 160, y: 285)
+        displayLabel.textAlignment = .center
+        displayLabel.text = keyboardRows[selectedRowIndex][selectedCharIndex]
+        view.addSubview(displayLabel)
+        return displayLabel
+    }
+    
     func shiftLeft() {
-        selectedButtonIndex -= 1
-        if(selectedButtonIndex < 0) {
-            selectedButtonIndex = 0
+        selectedCharIndex -= 1
+        if(selectedCharIndex < 0) {
+            selectedCharIndex = 0
         }
     }
     
     func shiftRight() {
-        selectedButtonIndex += 1
-        if(selectedButtonIndex >= keyboardRows[selectedRowIndex].count) {
-            selectedButtonIndex = keyboardRows[selectedRowIndex].count - 1
+        selectedCharIndex += 1
+        if(selectedCharIndex >= keyboardRows[selectedRowIndex].count) {
+            selectedCharIndex = keyboardRows[selectedRowIndex].count - 1
         }
     }
     
