@@ -5,6 +5,8 @@
 //  Created by Joon Park on 10/18/16.
 //
 
+// THIS TARGET IS DEPRECATED. ONLY FOR ALPHA BUILD.
+
 import UIKit
 import CoreMotion
 import AudioToolbox
