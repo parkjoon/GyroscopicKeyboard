@@ -102,6 +102,7 @@ class KeyboardViewController: UIInputViewController {
         if(selectedCharIndex < 0) {
             selectedCharIndex = 0
         }
+        updateSelectionDisplay()
     }
     
     func shiftRight() {
@@ -109,6 +110,7 @@ class KeyboardViewController: UIInputViewController {
         if(selectedCharIndex >= keyboardRows[selectedRowIndex].count) {
             selectedCharIndex = keyboardRows[selectedRowIndex].count - 1
         }
+        updateSelectionDisplay()
     }
     
     func shiftUp() {
@@ -116,6 +118,7 @@ class KeyboardViewController: UIInputViewController {
         if(selectedRowIndex < 0) {
             selectedRowIndex = 0
         }
+        updateSelectionDisplay()
     }
     
     func shiftDown() {
@@ -123,6 +126,7 @@ class KeyboardViewController: UIInputViewController {
         if(selectedRowIndex >= keyboardRows.count) {
             selectedRowIndex = keyboardRows.count - 1
         }
+        updateSelectionDisplay()
     }
     
     /*
@@ -146,5 +150,9 @@ class KeyboardViewController: UIInputViewController {
     
     func createSymbolRow() -> [String] {
         return ["-", "_", "@"]
+    }
+
+    func updateSelectionDisplay() {
+        selectionDisplay.text = keyboardRows[selectedRowIndex][selectedCharIndex]
     }
 }
