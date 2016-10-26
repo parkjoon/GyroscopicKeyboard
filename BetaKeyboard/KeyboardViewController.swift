@@ -36,6 +36,7 @@ class KeyboardViewController: UIInputViewController {
         selectedCharIndex = 0
         selectionDisplay = createSelectionDisplay()
         addNextKeyboardButton()
+        addGestures()
     }
     
     override func didReceiveMemoryWarning() {
@@ -97,7 +98,7 @@ class KeyboardViewController: UIInputViewController {
         dynamicLabel.textAlignment = NSTextAlignment.center
         dynamicLabel.text = keyboardRows[selectedRowIndex][selectedCharIndex]
         dynamicLabel.font = dynamicLabel.font.withSize(200)
-        self.view.addSubview(dynamicLabel)
+        view.addSubview(dynamicLabel)
         return dynamicLabel
     }
     
@@ -131,6 +132,18 @@ class KeyboardViewController: UIInputViewController {
             selectedRowIndex = keyboardRows.count - 1
         }
         updateSelectionDisplay()
+    }
+    
+    func addGestures() {
+        // Register the gestures to the main view ('view'), so that they are recognized anywhere on the screen.
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(shiftDown))
+        swipeDown.direction = UISwipeGestureRecognizerDirection.down
+        
+        let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(shiftUp))
+        swipeUp.direction = UISwipeGestureRecognizerDirection.up
+        
+        view.addGestureRecognizer(swipeDown)
+        view.addGestureRecognizer(swipeUp)
     }
     
     /*
