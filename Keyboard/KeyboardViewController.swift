@@ -33,14 +33,32 @@ class KeyboardViewController: UIInputViewController {
         addClickArea()
     }
 
+    var ctr = 0 //for determining speed of movement based on tilt
+
     func selectMovement() {
-        if let data = manager.accelerometerData {
-            if data.acceleration.x < -0.2 {
+        if (ctr < 3) { //prevent integer overflow
+            ctr += 1
+        }
+        if let data = manager.accelerometerData { //TODO: consider trying to consolidate if statements
+            if data.acceleration.x < -0.4 {
                 selectLeft()
             }
-            else if data.acceleration.x > 0.2 {
+            else if data.acceleration.x < -0.3 && ctr > 1 {
+                selectLeft()
+            }
+            else if data.acceleration.x < -0.2 && ctr > 2 {
+                selectLeft()
+            }
+            else if data.acceleration.x < -0.4 {
                 selectRight()
             }
+            else if data.acceleration.x < -0.3 && ctr > 1 {
+                selectRight()
+            }
+            else if data.acceleration.x > 0.2 && ctr > 2 {
+                selectRight()
+            }
+            ctr = 0
         }
     }
     
@@ -55,12 +73,8 @@ class KeyboardViewController: UIInputViewController {
         if manager.isGyroAvailable && manager.isDeviceMotionAvailable && manager.isAccelerometerAvailable {
             manager.startAccelerometerUpdates()
             manager.accelerometerUpdateInterval = 0.1
-            manager.startDeviceMotionUpdates()
-            manager.deviceMotionUpdateInterval = 0.1
-            manager.startGyroUpdates()
-            manager.gyroUpdateInterval = 0.1
-            if (manager.isGyroActive && manager.isDeviceMotionActive && manager.isAccelerometerActive) {
-                Timer.scheduledTimer(timeInterval: 0.25, target: self, selector: #selector(KeyboardViewController.selectMovement), userInfo: nil, repeats: true)
+            if (manager.isAccelerometerActive) {
+                Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(KeyboardViewController.selectMovement), userInfo: nil, repeats: true)
             }
             else {
                 //did not activate gyro and motion update properly
