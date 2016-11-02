@@ -64,7 +64,7 @@ class KeyboardViewController: UIInputViewController {
     let manager = CMMotionManager()
     var ctr = 4
 
-    func determineGyroAvailability() {
+    func isGyroAvailable() {
         // Set the initially selected character.
         //selectButton(rowIndex: 0, buttonIndex: 0)
         if manager.isGyroAvailable && manager.isDeviceMotionAvailable && manager.isAccelerometerAvailable {
@@ -209,6 +209,7 @@ class KeyboardViewController: UIInputViewController {
         view.addGestureRecognizer(swipeLeft)
         view.addGestureRecognizer(swipeRight)
         view.addGestureRecognizer(tap)
+        isGyroAvailable()
     }
     
     func insertSelectedCharacter(_ sender: UITapGestureRecognizer){
