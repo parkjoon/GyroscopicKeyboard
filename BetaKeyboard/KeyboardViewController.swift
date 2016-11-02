@@ -202,10 +202,18 @@ class KeyboardViewController: UIInputViewController {
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(enterSpace))
         swipeRight.direction = UISwipeGestureRecognizerDirection.right
         
+        let tap = UITapGestureRecognizer(target: self, action: #selector(insertSelectedCharacter (_:)))
+        
         view.addGestureRecognizer(swipeDown)
         view.addGestureRecognizer(swipeUp)
         view.addGestureRecognizer(swipeLeft)
         view.addGestureRecognizer(swipeRight)
+        view.addGestureRecognizer(tap)
+    }
+    
+    func insertSelectedCharacter(_ sender: UITapGestureRecognizer){
+        let selectedCharacter = keyboardRows[selectedRowIndex][selectedCharIndex]
+        (textDocumentProxy as UIKeyInput).insertText(selectedCharacter)
     }
     
     func enterDelete() {
