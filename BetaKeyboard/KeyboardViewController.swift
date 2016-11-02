@@ -218,9 +218,11 @@ class KeyboardViewController: UIInputViewController {
     
     func enterDelete() {
         // Delete one character.
+        (textDocumentProxy as UIKeyInput).deleteBackward()
     }
     
     func enterSpace() {
+        (textDocumentProxy as UIKeyInput).insertText(" ")
         // Enter a space (' ').
     }
     
