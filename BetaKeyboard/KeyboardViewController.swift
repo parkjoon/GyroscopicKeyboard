@@ -87,33 +87,33 @@ class KeyboardViewController: UIInputViewController {
      */
 
     func selectMovement() {
-        if (ctr < 3) { //prevent integer overflow
-            ctr += 1
+        if (ctr > 0) { //prevent integer overflow
+            ctr -= 1
         }
         if let data = manager.accelerometerData { //TODO: consider trying to consolidate if statements
             if data.acceleration.x < -0.4 {
                 shiftLeft()
-                ctr = 0
+                ctr = 4
             }
             else if data.acceleration.x < -0.3 && ctr > 1 {
                 shiftLeft()
-                ctr = 0
+                ctr = 4
             }
             else if data.acceleration.x < -0.2 && ctr > 2 {
                 shiftLeft()
-                ctr = 0
+                ctr = 4
             }
             else if data.acceleration.x < -0.4 {
                 shiftRight()
-                ctr = 0
+                ctr = 4
             }
             else if data.acceleration.x < -0.3 && ctr > 1 {
                 shiftRight()
-                ctr = 0
+                ctr = 4
             }
             else if data.acceleration.x > 0.2 && ctr > 2 {
                 shiftRight()
-                ctr = 0
+                ctr = 4
             }
         }
     }
