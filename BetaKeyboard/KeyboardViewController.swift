@@ -133,7 +133,7 @@ class KeyboardViewController: UIInputViewController {
     func createSelectionDisplay() -> UILabel {
         let dynamicLabel: UILabel = UILabel()
         let screenSize: CGRect = UIScreen.main.bounds
-        dynamicLabel.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: 200)
+        dynamicLabel.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: 190)
         dynamicLabel.backgroundColor = UIColor.orange
         dynamicLabel.textColor = UIColor.black
         dynamicLabel.textAlignment = NSTextAlignment.center
@@ -206,9 +206,11 @@ class KeyboardViewController: UIInputViewController {
     
     func enterDelete() {
         // Delete one character.
+        (textDocumentProxy as UIKeyInput).deleteBackward()
     }
     
     func enterSpace() {
+        (textDocumentProxy as UIKeyInput).insertText(" ")
         // Enter a space (' ').
     }
     
