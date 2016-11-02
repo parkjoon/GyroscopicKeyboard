@@ -62,7 +62,6 @@ class KeyboardViewController: UIInputViewController {
     }
     
     let manager = CMMotionManager()
-    var ctr = 4
 
     func isGyroAvailable() {
         // Set the initially selected character.
@@ -86,34 +85,22 @@ class KeyboardViewController: UIInputViewController {
      * Core functions.
      */
 
+    var ctr = 4 //used for determining speed of gyroscope
+
     func selectMovement() {
-        if (ctr > 0) { //prevent integer overflow
+        if (ctr > 2) { //prevent integer overflow
             ctr -= 1
         }
-        if let data = manager.accelerometerData { //TODO: consider trying to consolidate if statements
-            if data.acceleration.x < -0.4 {
-                shiftLeft()
-                ctr = 4
-            }
-            else if data.acceleration.x < -0.3 && ctr > 1 {
-                shiftLeft()
-                ctr = 4
-            }
-            else if data.acceleration.x < -0.2 && ctr > 2 {
-                shiftLeft()
-                ctr = 4
-            }
-            else if data.acceleration.x < -0.4 {
-                shiftRight()
-                ctr = 4
-            }
-            else if data.acceleration.x < -0.3 && ctr > 1 {
-                shiftRight()
-                ctr = 4
-            }
-            else if data.acceleration.x > 0.2 && ctr > 2 {
-                shiftRight()
-                ctr = 4
+        if let data = manager.accelerometerData {
+            if abs(data.acceleration.x) >= 0.2 {
+                if (data.acceleration.x * 10 >= Double(ctr)) {
+                    shiftRight()
+                    ctr = 4
+                }
+                else if (data.acceleration.x * -10 >= Double(ctr)) {
+                    shiftLeft()
+                    ctr = 4
+                }
             }
         }
     }
