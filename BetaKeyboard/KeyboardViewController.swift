@@ -61,9 +61,63 @@ class KeyboardViewController: UIInputViewController {
         self.nextKeyboardButton.setTitleColor(textColor, for: [])
     }
     
+    let manager = CMMotionManager()
+    var ctr = 4
+
+    func isGyroAvailable() {
+        // Set the initially selected character.
+        //selectButton(rowIndex: 0, buttonIndex: 0)
+        if manager.isGyroAvailable && manager.isDeviceMotionAvailable && manager.isAccelerometerAvailable {
+            manager.startAccelerometerUpdates()
+            manager.accelerometerUpdateInterval = 0.1
+            if (manager.isAccelerometerActive) {
+                Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(KeyboardViewController.selectMovement), userInfo: nil, repeats: true)
+            }
+            else {
+                //did not activate gyro and motion update properly
+            }
+        }
+        else {
+            // Keyboard won't work for this device.
+        }
+    }
+
     /*
      * Core functions.
      */
+
+    func selectMovement() {
+        if (ctr > 0) { //prevent integer overflow
+            ctr -= 1
+        }
+        if let data = manager.accelerometerData { //TODO: consider trying to consolidate if statements
+            if data.acceleration.x < -0.4 {
+                shiftLeft()
+                ctr = 4
+            }
+            else if data.acceleration.x < -0.3 && ctr > 1 {
+                shiftLeft()
+                ctr = 4
+            }
+            else if data.acceleration.x < -0.2 && ctr > 2 {
+                shiftLeft()
+                ctr = 4
+            }
+            else if data.acceleration.x < -0.4 {
+                shiftRight()
+                ctr = 4
+            }
+            else if data.acceleration.x < -0.3 && ctr > 1 {
+                shiftRight()
+                ctr = 4
+            }
+            else if data.acceleration.x > 0.2 && ctr > 2 {
+                shiftRight()
+                ctr = 4
+            }
+        }
+    }
+
     func addNextKeyboardButton() {
         nextKeyboardButton = UIButton(type: .system)
         
@@ -155,6 +209,7 @@ class KeyboardViewController: UIInputViewController {
         view.addGestureRecognizer(swipeLeft)
         view.addGestureRecognizer(swipeRight)
         view.addGestureRecognizer(tap)
+        isGyroAvailable()
     }
     
     func insertSelectedCharacter(_ sender: UITapGestureRecognizer){
@@ -164,9 +219,11 @@ class KeyboardViewController: UIInputViewController {
     
     func enterDelete() {
         // Delete one character.
+        (textDocumentProxy as UIKeyInput).deleteBackward()
     }
     
     func enterSpace() {
+        (textDocumentProxy as UIKeyInput).insertText(" ")
         // Enter a space (' ').
     }
     
