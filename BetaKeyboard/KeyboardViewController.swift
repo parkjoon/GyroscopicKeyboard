@@ -118,6 +118,7 @@ class KeyboardViewController: UIInputViewController {
         
         nextKeyboardButton.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         nextKeyboardButton.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        nextKeyboardButton.isAccessibilityElement = false
     }
     
     func createKeyboardRows() -> [[String]]{
@@ -140,6 +141,7 @@ class KeyboardViewController: UIInputViewController {
         dynamicLabel.text = keyboardRows[selectedRowIndex][selectedCharIndex]
         dynamicLabel.font = dynamicLabel.font.withSize(200)
         view.addSubview(dynamicLabel)
+        dynamicLabel.isAccessibilityElement = false
         return dynamicLabel
     }
     
@@ -205,13 +207,11 @@ class KeyboardViewController: UIInputViewController {
     }
     
     func enterDelete() {
-        // Delete one character.
         (textDocumentProxy as UIKeyInput).deleteBackward()
     }
     
     func enterSpace() {
         (textDocumentProxy as UIKeyInput).insertText(" ")
-        // Enter a space (' ').
     }
     
     /*
