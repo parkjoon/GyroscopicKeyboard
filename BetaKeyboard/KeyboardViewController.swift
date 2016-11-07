@@ -85,7 +85,7 @@ class KeyboardViewController: UIInputViewController {
      * Core functions.
      */
 
-    var ctr = 5 //used for determining speed of gyroscope
+    var ctr = 6 //used for determining speed of gyroscope
 
     func selectMovement() {
         if (ctr > 2) { //prevent integer overflow
@@ -95,11 +95,11 @@ class KeyboardViewController: UIInputViewController {
             if abs(data.acceleration.x) >= 0.2 {
                 if (data.acceleration.x * 10 >= Double(ctr)) {
                     shiftRight()
-                    ctr = 5
+                    ctr = 6
                 }
                 else if (data.acceleration.x * -10 >= Double(ctr)) {
                     shiftLeft()
-                    ctr = 5
+                    ctr = 6
                 }
             }
         }
