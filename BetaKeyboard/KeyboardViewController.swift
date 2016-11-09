@@ -62,6 +62,7 @@ class KeyboardViewController: UIInputViewController {
     }
     
     let manager = CMMotionManager()
+    let speechSynthesizer = AVSpeechSynthesizer()
 
     func isGyroAvailable() {
         // Set the initially selected character.
@@ -204,6 +205,7 @@ class KeyboardViewController: UIInputViewController {
     func insertSelectedCharacter(_ sender: UITapGestureRecognizer){
         let selectedCharacter = keyboardRows[selectedRowIndex][selectedCharIndex]
         (textDocumentProxy as UIKeyInput).insertText(selectedCharacter)
+        speakSelected();
     }
     
     func enterDelete() {
@@ -212,6 +214,12 @@ class KeyboardViewController: UIInputViewController {
     
     func enterSpace() {
         (textDocumentProxy as UIKeyInput).insertText(" ")
+    }
+    
+    func speakSelected() {
+        let speechUtterance = AVSpeechUtterance(string: keyboardRows[selectedRowIndex][selectedCharIndex])
+        
+        speechSynthesizer.speak(speechUtterance)
     }
     
     /*
