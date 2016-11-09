@@ -142,7 +142,7 @@ class KeyboardViewController: UIInputViewController {
         let dynamicLabel: UILabel = UILabel()
         let screenSize: CGRect = UIScreen.main.bounds
         dynamicLabel.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: 190)
-        dynamicLabel.backgroundColor = UIColor.orange
+        dynamicLabel.backgroundColor = UIColor.purple
         dynamicLabel.textColor = UIColor.black
         dynamicLabel.textAlignment = NSTextAlignment.center
         dynamicLabel.text = keyboardRows[selectedRowIndex][selectedCharIndex]
@@ -173,6 +173,7 @@ class KeyboardViewController: UIInputViewController {
         if(selectedRowIndex < 0) {
             selectedRowIndex = 0
         }
+        selectedCharIndex = 0
         updateSelectionDisplay()
     }
     
@@ -181,6 +182,7 @@ class KeyboardViewController: UIInputViewController {
         if(selectedRowIndex >= keyboardRows.count) {
             selectedRowIndex = keyboardRows.count - 1
         }
+        selectedCharIndex = 0
         updateSelectionDisplay()
     }
     
