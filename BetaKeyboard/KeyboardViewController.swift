@@ -38,6 +38,8 @@ class KeyboardViewController: UIInputViewController {
         selectionDisplay = createSelectionDisplay()
         addNextKeyboardButton()
         addGestures()
+        selectionDisplay.accessibilityTraits = UIAccessibilityTraitAllowsDirectInteraction
+        self.accessibilityTraits = UIAccessibilityTraitAllowsDirectInteraction
     }
     
     override func didReceiveMemoryWarning() {
