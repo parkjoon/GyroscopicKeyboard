@@ -17,7 +17,7 @@ class KeyboardViewController: UIInputViewController {
     // An array of arrays of UIButtons: [Row][Button]
     var keyboardRows: [[String]] = []
     var nextKeyboardButton: UIButton!
-    var selectedRowIndex: Int = 0
+    var selectedRowIndex: Int = 1
     var selectedCharIndex: Int = 0
     var selectionDisplay: UILabel!
     var rowColors: [UIColor] = []
