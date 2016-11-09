@@ -17,7 +17,7 @@ class KeyboardViewController: UIInputViewController {
     // An array of arrays of UIButtons: [Row][Button]
     var keyboardRows: [[String]] = []
     var nextKeyboardButton: UIButton!
-    var selectedRowIndex: Int = 1
+    var selectedRowIndex: Int = 0
     var selectedCharIndex: Int = 0
     var selectionDisplay: UILabel!
     var rowColors: [UIColor] = []
@@ -33,7 +33,7 @@ class KeyboardViewController: UIInputViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         keyboardRows = createKeyboardRows()
-        selectedRowIndex = 0
+        selectedRowIndex = 1
         selectedCharIndex = 0
         selectionDisplay = createSelectionDisplay()
         addNextKeyboardButton()
