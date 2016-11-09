@@ -142,7 +142,7 @@ class KeyboardViewController: UIInputViewController {
         let dynamicLabel: UILabel = UILabel()
         let screenSize: CGRect = UIScreen.main.bounds
         dynamicLabel.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: 190)
-        dynamicLabel.backgroundColor = UIColor.purple
+        dynamicLabel.backgroundColor = UIColor.brown
         dynamicLabel.textColor = UIColor.black
         dynamicLabel.textAlignment = NSTextAlignment.center
         dynamicLabel.text = keyboardRows[selectedRowIndex][selectedCharIndex]
