@@ -228,9 +228,7 @@ class KeyboardViewController: UIInputViewController {
     
     func speakSelected() {
         let speechUtterance = AVSpeechUtterance(string: keyboardRows[selectedRowIndex][selectedCharIndex])
-        
         speechSynthesizer.stopSpeaking(at: AVSpeechBoundary.immediate)
-        
         speechSynthesizer.speak(speechUtterance)
     }
     
@@ -250,11 +248,11 @@ class KeyboardViewController: UIInputViewController {
     }
     
     func createPunctuationRow() -> [String] {
-        return [".", ","]
+        return [".", ",", "!"]
     }
     
     func createSymbolRow() -> [String] {
-        return ["-", "_", "@"]
+        return ["-", "_", "+", "(", ")", "=", "@", "#", "$", "%", "&", "*", "^", "~"]
     }
 
     func updateSelectionDisplay() {
