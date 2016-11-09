@@ -20,6 +20,7 @@ class KeyboardViewController: UIInputViewController {
     var selectedRowIndex: Int = 0
     var selectedCharIndex: Int = 0
     var selectionDisplay: UILabel!
+    var rowColors: [UIColor] = []
     
     /*
      * Class utility functions.
@@ -125,10 +126,15 @@ class KeyboardViewController: UIInputViewController {
     func createKeyboardRows() -> [[String]]{
         var rows: [[String]] = []
         rows.append(createUpperAlphabetRow())
+        rowColors.append(UIColor.purple)
         rows.append(createLowerAlphabetRow())
+        rowColors.append(UIColor.brown)
         rows.append(createNumberRow())
+        rowColors.append(UIColor.orange)
         rows.append(createPunctuationRow())
+        rowColors.append(UIColor.gray)
         rows.append(createSymbolRow())
+        rowColors.append(UIColor.darkGray)
         return rows
     }
     
@@ -249,5 +255,6 @@ class KeyboardViewController: UIInputViewController {
 
     func updateSelectionDisplay() {
         selectionDisplay.text = keyboardRows[selectedRowIndex][selectedCharIndex]
+        selectionDisplay.backgroundColor = rowColors[selectedRowIndex]
     }
 }
