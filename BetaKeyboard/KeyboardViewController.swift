@@ -30,6 +30,18 @@ class KeyboardViewController: UIInputViewController {
         // Add custom view sizing constraints here
     }
     
+    override func viewDidLayoutSubviews() {
+        if(UIScreen.main.bounds.size.width < UIScreen.main.bounds.size.height){
+            // Keyboard is in Portrait
+            let screenSize: CGRect = UIScreen.main.bounds
+            selectionDisplay.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: 190)
+        }
+        else{
+            // Keyboard is in Landscape
+            selectionDisplay.frame = CGRect(x: 0, y: 0, width: 670, height: 135)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         keyboardRows = createKeyboardRows()
