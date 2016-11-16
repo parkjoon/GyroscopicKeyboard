@@ -162,7 +162,6 @@ class KeyboardViewController: UIInputViewController {
         dynamicLabel.text = keyboardRows[selectedRowIndex][selectedCharIndex]
         dynamicLabel.font = dynamicLabel.font.withSize(200)
         view.addSubview(dynamicLabel)
-        dynamicLabel.isAccessibilityElement = false
         return dynamicLabel
     }
     
