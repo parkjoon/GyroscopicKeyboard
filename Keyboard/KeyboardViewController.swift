@@ -5,6 +5,8 @@
 //  Created by Joon Park on 10/18/16.
 //
 
+// THIS TARGET IS DEPRECATED. ONLY FOR ALPHA BUILD.
+
 import UIKit
 import CoreMotion
 import AudioToolbox
@@ -62,7 +64,6 @@ class KeyboardViewController: UIInputViewController {
             }
             else {
                 //did not activate gyro and motion update properly
-                selectLeft()
             }
         }
         else {
@@ -73,7 +74,7 @@ class KeyboardViewController: UIInputViewController {
     // Renders a button to switch to the next system keyboard.
     func addNextKeyboardButton() {
         nextKeyboardButton = UIButton(type: .system)
-        nextKeyboardButton.setTitle("Next Keyboard", for: [])
+        nextKeyboardButton.setTitle("🌐", for: [])
         nextKeyboardButton.sizeToFit()
         nextKeyboardButton.translatesAutoresizingMaskIntoConstraints = false
         nextKeyboardButton.backgroundColor = UIColor(white: 0.9, alpha: 1)
@@ -253,6 +254,7 @@ class KeyboardViewController: UIInputViewController {
         
         print ("swipe")
     }
+    
     func toCaps(){
         for row in keyboardRows {
             for button in row{
@@ -261,6 +263,7 @@ class KeyboardViewController: UIInputViewController {
             }
         }
     }
+    
     func toLower(){
         for row in keyboardRows {
             for button in row{
@@ -269,6 +272,7 @@ class KeyboardViewController: UIInputViewController {
             }
         }
     }
+    
     func insertSelectedButton(_ sender: UITapGestureRecognizer){
         let selectedCharacter = keyboardRows[selectedRowIndex][selectedButtonIndex].title(for: .normal)
         
