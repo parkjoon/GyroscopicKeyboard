@@ -14,6 +14,8 @@
 		2951B3361DB6876700FDF888 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2951B3341DB6876700FDF888 /* LaunchScreen.storyboard */; };
 		2951B3441DB689DA00FDF888 /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2951B3431DB689DA00FDF888 /* KeyboardViewController.swift */; };
 		2951B3481DB689DA00FDF888 /* Keyboard.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 2951B3411DB689DA00FDF888 /* Keyboard.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		296440211DE21D240006464D /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296440201DE21D240006464D /* KeyboardViewController.swift */; };
+		296440251DE21D240006464D /* OmegaKeyboard.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 2964401E1DE21D240006464D /* OmegaKeyboard.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		29BB3C1E1DC0F78E00A888A0 /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29BB3C1D1DC0F78E00A888A0 /* KeyboardViewController.swift */; };
 		29BB3C221DC0F78E00A888A0 /* BetaKeyboard.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 29BB3C1B1DC0F78E00A888A0 /* BetaKeyboard.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -25,6 +27,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 2951B3401DB689DA00FDF888;
 			remoteInfo = Keyboard;
+		};
+		296440231DE21D240006464D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2951B3201DB6876700FDF888 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2964401D1DE21D240006464D;
+			remoteInfo = OmegaKeyboard;
 		};
 		29BB3C201DC0F78E00A888A0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -43,6 +52,7 @@
 			dstSubfolderSpec = 13;
 			files = (
 				2951B3481DB689DA00FDF888 /* Keyboard.appex in Embed App Extensions */,
+				296440251DE21D240006464D /* OmegaKeyboard.appex in Embed App Extensions */,
 				29BB3C221DC0F78E00A888A0 /* BetaKeyboard.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
@@ -61,6 +71,9 @@
 		2951B3411DB689DA00FDF888 /* Keyboard.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Keyboard.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		2951B3431DB689DA00FDF888 /* KeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardViewController.swift; sourceTree = "<group>"; };
 		2951B3451DB689DA00FDF888 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2964401E1DE21D240006464D /* OmegaKeyboard.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OmegaKeyboard.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		296440201DE21D240006464D /* KeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardViewController.swift; sourceTree = "<group>"; };
+		296440221DE21D240006464D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		29BB3C1B1DC0F78E00A888A0 /* BetaKeyboard.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BetaKeyboard.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		29BB3C1D1DC0F78E00A888A0 /* KeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardViewController.swift; sourceTree = "<group>"; };
 		29BB3C1F1DC0F78E00A888A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -75,6 +88,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		2951B33E1DB689DA00FDF888 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2964401B1DE21D240006464D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -97,6 +117,7 @@
 				2951B32A1DB6876700FDF888 /* GyroscopicKeyboard */,
 				2951B3421DB689DA00FDF888 /* Keyboard */,
 				29BB3C1C1DC0F78E00A888A0 /* BetaKeyboard */,
+				2964401F1DE21D240006464D /* OmegaKeyboard */,
 				2951B3291DB6876700FDF888 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -107,6 +128,7 @@
 				2951B3281DB6876700FDF888 /* GyroscopicKeyboard.app */,
 				2951B3411DB689DA00FDF888 /* Keyboard.appex */,
 				29BB3C1B1DC0F78E00A888A0 /* BetaKeyboard.appex */,
+				2964401E1DE21D240006464D /* OmegaKeyboard.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -131,6 +153,15 @@
 				2951B3451DB689DA00FDF888 /* Info.plist */,
 			);
 			path = Keyboard;
+			sourceTree = "<group>";
+		};
+		2964401F1DE21D240006464D /* OmegaKeyboard */ = {
+			isa = PBXGroup;
+			children = (
+				296440201DE21D240006464D /* KeyboardViewController.swift */,
+				296440221DE21D240006464D /* Info.plist */,
+			);
+			path = OmegaKeyboard;
 			sourceTree = "<group>";
 		};
 		29BB3C1C1DC0F78E00A888A0 /* BetaKeyboard */ = {
@@ -159,6 +190,7 @@
 			dependencies = (
 				2951B3471DB689DA00FDF888 /* PBXTargetDependency */,
 				29BB3C211DC0F78E00A888A0 /* PBXTargetDependency */,
+				296440241DE21D240006464D /* PBXTargetDependency */,
 			);
 			name = GyroscopicKeyboard;
 			productName = GyroscopicKeyboard;
@@ -180,6 +212,23 @@
 			name = Keyboard;
 			productName = Keyboard;
 			productReference = 2951B3411DB689DA00FDF888 /* Keyboard.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		2964401D1DE21D240006464D /* OmegaKeyboard */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 296440281DE21D240006464D /* Build configuration list for PBXNativeTarget "OmegaKeyboard" */;
+			buildPhases = (
+				2964401A1DE21D240006464D /* Sources */,
+				2964401B1DE21D240006464D /* Frameworks */,
+				2964401C1DE21D240006464D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OmegaKeyboard;
+			productName = OmegaKeyboard;
+			productReference = 2964401E1DE21D240006464D /* OmegaKeyboard.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 		29BB3C1A1DC0F78E00A888A0 /* BetaKeyboard */ = {
@@ -205,7 +254,7 @@
 		2951B3201DB6876700FDF888 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0800;
+				LastSwiftUpdateCheck = 0810;
 				LastUpgradeCheck = 0810;
 				TargetAttributes = {
 					2951B3271DB6876700FDF888 = {
@@ -215,6 +264,11 @@
 					};
 					2951B3401DB689DA00FDF888 = {
 						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = 6GK25Y9V3D;
+						ProvisioningStyle = Automatic;
+					};
+					2964401D1DE21D240006464D = {
+						CreatedOnToolsVersion = 8.1;
 						DevelopmentTeam = 6GK25Y9V3D;
 						ProvisioningStyle = Automatic;
 					};
@@ -241,6 +295,7 @@
 				2951B3271DB6876700FDF888 /* GyroscopicKeyboard */,
 				2951B3401DB689DA00FDF888 /* Keyboard */,
 				29BB3C1A1DC0F78E00A888A0 /* BetaKeyboard */,
+				2964401D1DE21D240006464D /* OmegaKeyboard */,
 			);
 		};
 /* End PBXProject section */
@@ -257,6 +312,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		2951B33F1DB689DA00FDF888 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2964401C1DE21D240006464D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -290,6 +352,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2964401A1DE21D240006464D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				296440211DE21D240006464D /* KeyboardViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		29BB3C171DC0F78E00A888A0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -305,6 +375,11 @@
 			isa = PBXTargetDependency;
 			target = 2951B3401DB689DA00FDF888 /* Keyboard */;
 			targetProxy = 2951B3461DB689DA00FDF888 /* PBXContainerItemProxy */;
+		};
+		296440241DE21D240006464D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2964401D1DE21D240006464D /* OmegaKeyboard */;
+			targetProxy = 296440231DE21D240006464D /* PBXContainerItemProxy */;
 		};
 		29BB3C211DC0F78E00A888A0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -482,6 +557,34 @@
 			};
 			name = Release;
 		};
+		296440261DE21D240006464D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = 6GK25Y9V3D;
+				INFOPLIST_FILE = OmegaKeyboard/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = parkjoon.GyroscopicKeyboard.OmegaKeyboard;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		296440271DE21D240006464D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = 6GK25Y9V3D;
+				INFOPLIST_FILE = OmegaKeyboard/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = parkjoon.GyroscopicKeyboard.OmegaKeyboard;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 		29BB3C231DC0F78E00A888A0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -537,6 +640,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		296440281DE21D240006464D /* Build configuration list for PBXNativeTarget "OmegaKeyboard" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				296440261DE21D240006464D /* Debug */,
+				296440271DE21D240006464D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		29BB3C251DC0F78E00A888A0 /* Build configuration list for PBXNativeTarget "BetaKeyboard" */ = {
 			isa = XCConfigurationList;
