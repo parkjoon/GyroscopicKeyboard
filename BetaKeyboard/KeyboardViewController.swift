@@ -117,11 +117,12 @@ class KeyboardViewController: UIInputViewController {
         nextKeyboardButton.translatesAutoresizingMaskIntoConstraints = false
         
         nextKeyboardButton.addTarget(self, action: #selector(handleInputModeList(from:with:)), for: .allTouchEvents)
-        
+        nextKeyboardButton.backgroundColor = UIColor.lightGray
         view.addSubview(nextKeyboardButton)
         
         nextKeyboardButton.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         nextKeyboardButton.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        
         nextKeyboardButton.isAccessibilityElement = false
     }
     
@@ -143,12 +144,17 @@ class KeyboardViewController: UIInputViewController {
     func createSelectionDisplay() -> UILabel {
         let dynamicLabel: UILabel = UILabel()
         let screenSize: CGRect = UIScreen.main.bounds
-        dynamicLabel.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: 190)
+        dynamicLabel.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: 216)
         dynamicLabel.backgroundColor = UIColor.brown
         dynamicLabel.textColor = UIColor.black
         dynamicLabel.textAlignment = NSTextAlignment.center
+        dynamicLabel.adjustsFontSizeToFitWidth = true
+
+        dynamicLabel.baselineAdjustment = .alignCenters
         dynamicLabel.text = keyboardRows[selectedRowIndex][selectedCharIndex]
-        dynamicLabel.font = dynamicLabel.font.withSize(200)
+        dynamicLabel.font = dynamicLabel.font.withSize(190)
+
+        
         view.addSubview(dynamicLabel)
         dynamicLabel.isAccessibilityElement = false
         return dynamicLabel
@@ -159,6 +165,9 @@ class KeyboardViewController: UIInputViewController {
         if(selectedCharIndex < 0) {
             selectedCharIndex = 0
         }
+        //this and similar calls below use the haptics library new in ios9 but not sure if it actually works on the device
+        AudioServicesPlaySystemSound(1519)
+//        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
         updateSelectionDisplay()
     }
     
@@ -167,6 +176,8 @@ class KeyboardViewController: UIInputViewController {
         if(selectedCharIndex >= keyboardRows[selectedRowIndex].count) {
             selectedCharIndex = keyboardRows[selectedRowIndex].count - 1
         }
+        AudioServicesPlaySystemSound(1519)
+//        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
         updateSelectionDisplay()
     }
     
@@ -176,6 +187,8 @@ class KeyboardViewController: UIInputViewController {
             selectedRowIndex = 0
         }
         selectedCharIndex = 0
+        AudioServicesPlaySystemSound(1520)
+//        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
         updateSelectionDisplay()
     }
     
@@ -185,6 +198,11 @@ class KeyboardViewController: UIInputViewController {
             selectedRowIndex = keyboardRows.count - 1
         }
         selectedCharIndex = 0
+        AudioServicesPlaySystemSound(1520)
+        
+        
+//        AudioServicesPlaySystemSoundWithVibration(4095,nil,{@"VibePattern":[],@"Intensity":0.25})
+//        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
         updateSelectionDisplay()
     }
     
@@ -240,7 +258,7 @@ class KeyboardViewController: UIInputViewController {
     }
     
     func createLowerAlphabetRow() -> [String] {
-        return ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+        return ["g", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
     }
     
     func createNumberRow() -> [String] {
