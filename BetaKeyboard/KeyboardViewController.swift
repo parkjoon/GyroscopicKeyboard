@@ -238,8 +238,12 @@ class KeyboardViewController: UIInputViewController {
     }
     
     func speakSelected() {
-        let speechUtterance = AVSpeechUtterance(string: keyboardRows[selectedRowIndex][selectedCharIndex])
-        speechSynthesizer.stopSpeaking(at: AVSpeechBoundary.immediate)
+        let toSay = keyboardRows[selectedRowIndex][selectedCharIndex]
+        let speechUtterance = AVSpeechUtterance(string: toSay)
+        if (speechSynthesizer.isSpeaking)
+        {
+            speechSynthesizer.stopSpeaking(at: AVSpeechBoundary.immediate)
+        }
         speechSynthesizer.speak(speechUtterance)
     }
     
