@@ -223,6 +223,7 @@ class KeyboardViewController: UIInputViewController {
         swipeRight.direction = UISwipeGestureRecognizerDirection.right
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(insertSelectedCharacter (_:)))
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(pressEnter))
         
         // add two finger tap here
         
@@ -231,12 +232,17 @@ class KeyboardViewController: UIInputViewController {
         view.addGestureRecognizer(swipeLeft)
         view.addGestureRecognizer(swipeRight)
         view.addGestureRecognizer(tap)
+        view.addGestureRecognizer(longPress)
         isGyroAvailable()
     }
     
     func insertSelectedCharacter(_ sender: UITapGestureRecognizer){
         let selectedCharacter = keyboardRows[selectedRowIndex][selectedCharIndex]
         (textDocumentProxy as UIKeyInput).insertText(selectedCharacter)
+    }
+    
+    func pressEnter() {
+        
     }
     
     func enterDelete() {
