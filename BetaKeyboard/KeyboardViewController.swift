@@ -229,8 +229,6 @@ class KeyboardViewController: UIInputViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(insertSelectedCharacter (_:)))
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(pressEnter))
         
-        // add two finger tap here
-        
         view.addGestureRecognizer(swipeDown)
         view.addGestureRecognizer(swipeUp)
         view.addGestureRecognizer(swipeLeft)
@@ -246,7 +244,7 @@ class KeyboardViewController: UIInputViewController {
     }
     
     func pressEnter() {
-        
+        (textDocumentProxy as UIKeyInput).insertText("\n")
     }
     
     func enterDelete() {
