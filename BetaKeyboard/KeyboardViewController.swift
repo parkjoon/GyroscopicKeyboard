@@ -34,7 +34,7 @@ class KeyboardViewController: UIInputViewController {
         if(UIScreen.main.bounds.size.width < UIScreen.main.bounds.size.height){
             // Keyboard is in Portrait
             let screenSize: CGRect = UIScreen.main.bounds
-            selectionDisplay.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: 190)
+            selectionDisplay.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: 216)
         }
         else{
             // Keyboard is in Landscape
@@ -89,7 +89,7 @@ class KeyboardViewController: UIInputViewController {
                 Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(KeyboardViewController.selectMovement), userInfo: nil, repeats: true)
             }
             else {
-                //did not activate gyro and motion update properly
+                // did not activate gyro and motion update properly
             }
         }
         else {
@@ -101,10 +101,10 @@ class KeyboardViewController: UIInputViewController {
      * Core functions.
      */
 
-    var ctr = 6 //used for determining speed of gyroscope
+    var ctr = 6 // used for determining speed of gyroscope
 
     func selectMovement() {
-        if (ctr > 2) { //prevent integer overflow
+        if (ctr > 2) { // prevent integer overflow
             ctr -= 1
         }
         if let data = manager.accelerometerData {
@@ -166,7 +166,6 @@ class KeyboardViewController: UIInputViewController {
         dynamicLabel.text = keyboardRows[selectedRowIndex][selectedCharIndex]
         dynamicLabel.font = dynamicLabel.font.withSize(190)
 
-        
         view.addSubview(dynamicLabel)
         return dynamicLabel
     }
@@ -176,10 +175,9 @@ class KeyboardViewController: UIInputViewController {
         if(selectedCharIndex < 0) {
             selectedCharIndex = 0
         }
-        //this and similar calls below use the haptics library new in ios9 but not sure if it actually works on the device
-        AudioServicesPlaySystemSound(1519)
-//        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-        updateSelectionDisplay()
+        else {
+            updateSelectionDisplay()
+        }
     }
     
     func shiftRight() {
@@ -187,9 +185,9 @@ class KeyboardViewController: UIInputViewController {
         if(selectedCharIndex >= keyboardRows[selectedRowIndex].count) {
             selectedCharIndex = keyboardRows[selectedRowIndex].count - 1
         }
-        AudioServicesPlaySystemSound(1519)
-//        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-        updateSelectionDisplay()
+        else {
+            updateSelectionDisplay()
+        }
     }
     
     func shiftUp() {
@@ -197,9 +195,9 @@ class KeyboardViewController: UIInputViewController {
         if(selectedRowIndex < 0) {
             selectedRowIndex = 0
         }
-        selectedCharIndex = 0
-        AudioServicesPlaySystemSound(1520)
-//        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        if(selectedRowIndex != 0) {
+            selectedCharIndex = 0
+        }
         updateSelectionDisplay()
     }
     
@@ -208,12 +206,9 @@ class KeyboardViewController: UIInputViewController {
         if(selectedRowIndex >= keyboardRows.count) {
             selectedRowIndex = keyboardRows.count - 1
         }
-        selectedCharIndex = 0
-        AudioServicesPlaySystemSound(1520)
-        
-        
-//        AudioServicesPlaySystemSoundWithVibration(4095,nil,{@"VibePattern":[],@"Intensity":0.25})
-//        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        else if(selectedRowIndex != 1) {
+            selectedCharIndex = 0
+        }
         updateSelectionDisplay()
     }
     
@@ -232,19 +227,24 @@ class KeyboardViewController: UIInputViewController {
         swipeRight.direction = UISwipeGestureRecognizerDirection.right
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(insertSelectedCharacter (_:)))
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(pressEnter))
         
         view.addGestureRecognizer(swipeDown)
         view.addGestureRecognizer(swipeUp)
         view.addGestureRecognizer(swipeLeft)
         view.addGestureRecognizer(swipeRight)
         view.addGestureRecognizer(tap)
+        view.addGestureRecognizer(longPress)
         isGyroAvailable()
     }
     
     func insertSelectedCharacter(_ sender: UITapGestureRecognizer){
         let selectedCharacter = keyboardRows[selectedRowIndex][selectedCharIndex]
         (textDocumentProxy as UIKeyInput).insertText(selectedCharacter)
-        speakSelected();
+    }
+    
+    func pressEnter() {
+        (textDocumentProxy as UIKeyInput).insertText("\n")
     }
     
     func enterDelete() {
@@ -256,13 +256,7 @@ class KeyboardViewController: UIInputViewController {
     }
     
     func speakSelected() {
-        let toSay = keyboardRows[selectedRowIndex][selectedCharIndex]
-        let speechUtterance = AVSpeechUtterance(string: toSay)
-        if (speechSynthesizer.isSpeaking)
-        {
-            speechSynthesizer.stopSpeaking(at: AVSpeechBoundary.immediate)
-        }
-        speechSynthesizer.speak(speechUtterance)
+        UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, selectionDisplay)
     }
     
     /*
@@ -273,7 +267,7 @@ class KeyboardViewController: UIInputViewController {
     }
     
     func createLowerAlphabetRow() -> [String] {
-        return ["g", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+        return ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
     }
     
     func createNumberRow() -> [String] {
@@ -291,5 +285,7 @@ class KeyboardViewController: UIInputViewController {
     func updateSelectionDisplay() {
         selectionDisplay.text = keyboardRows[selectedRowIndex][selectedCharIndex]
         selectionDisplay.backgroundColor = rowColors[selectedRowIndex]
+        let text = keyboardRows[selectedRowIndex][selectedCharIndex]
+        UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(text, comment: ""))
     }
 }
