@@ -34,7 +34,7 @@ class KeyboardViewController: UIInputViewController {
         if(UIScreen.main.bounds.size.width < UIScreen.main.bounds.size.height){
             // Keyboard is in Portrait
             let screenSize: CGRect = UIScreen.main.bounds
-            selectionDisplay.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: 190)
+            selectionDisplay.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: 216)
         }
         else{
             // Keyboard is in Landscape
