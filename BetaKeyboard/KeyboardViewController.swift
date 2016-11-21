@@ -112,10 +112,16 @@ class KeyboardViewController: UIInputViewController {
                 if (data.acceleration.x * 10 >= Double(ctr)) {
                     shiftRight()
                     ctr = 6
+                    if (data.acceleration.x < 0.5) {
+                        speakSelected()
+                    }
                 }
                 else if (data.acceleration.x * -10 >= Double(ctr)) {
                     shiftLeft()
                     ctr = 6
+                    if (data.acceleration.x > -0.5) {
+                        speakSelected()
+                    }
                 }
             }
         }
@@ -197,7 +203,9 @@ class KeyboardViewController: UIInputViewController {
         if(selectedRowIndex < 0) {
             selectedRowIndex = 0
         }
-        selectedCharIndex = 0
+        if(selectedRowIndex != 0) {
+            selectedCharIndex = 0
+        }
         AudioServicesPlaySystemSound(1520)
 //        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
         updateSelectionDisplay()
@@ -208,7 +216,9 @@ class KeyboardViewController: UIInputViewController {
         if(selectedRowIndex >= keyboardRows.count) {
             selectedRowIndex = keyboardRows.count - 1
         }
-        selectedCharIndex = 0
+        if(selectedRowIndex != 1) {
+            selectedCharIndex = 0
+        }
         AudioServicesPlaySystemSound(1520)
         
         
@@ -244,7 +254,7 @@ class KeyboardViewController: UIInputViewController {
     func insertSelectedCharacter(_ sender: UITapGestureRecognizer){
         let selectedCharacter = keyboardRows[selectedRowIndex][selectedCharIndex]
         (textDocumentProxy as UIKeyInput).insertText(selectedCharacter)
-        speakSelected();
+        //speakSelected();
     }
     
     func enterDelete() {
@@ -256,13 +266,16 @@ class KeyboardViewController: UIInputViewController {
     }
     
     func speakSelected() {
-        let toSay = keyboardRows[selectedRowIndex][selectedCharIndex]
-        let speechUtterance = AVSpeechUtterance(string: toSay)
-        if (speechSynthesizer.isSpeaking)
-        {
-            speechSynthesizer.stopSpeaking(at: AVSpeechBoundary.immediate)
-        }
-        speechSynthesizer.speak(speechUtterance)
+        //let toSay = keyboardRows[selectedRowIndex][selectedCharIndex]
+        //let speechUtterance = AVSpeechUtterance(string: toSay)
+        //if (speechSynthesizer.isSpeaking)
+        //{
+        //    speechSynthesizer.stopSpeaking(at: AVSpeechBoundary.immediate)
+        //}
+        //speechSynthesizer.speak(speechUtterance)
+        let selectedCharacter = keyboardRows[selectedRowIndex][selectedCharIndex]
+        (textDocumentProxy as UIKeyInput).insertText(selectedCharacter)
+        (textDocumentProxy as UIKeyInput).deleteBackward()
     }
     
     /*
@@ -273,7 +286,7 @@ class KeyboardViewController: UIInputViewController {
     }
     
     func createLowerAlphabetRow() -> [String] {
-        return ["g", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+        return ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
     }
     
     func createNumberRow() -> [String] {
