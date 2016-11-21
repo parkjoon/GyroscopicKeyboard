@@ -175,9 +175,7 @@ class KeyboardViewController: UIInputViewController {
         if(selectedCharIndex < 0) {
             selectedCharIndex = 0
         }
-        else {
-            updateSelectionDisplay()
-        }
+        updateSelectionDisplay()
     }
     
     func shiftRight() {
@@ -185,9 +183,7 @@ class KeyboardViewController: UIInputViewController {
         if(selectedCharIndex >= keyboardRows[selectedRowIndex].count) {
             selectedCharIndex = keyboardRows[selectedRowIndex].count - 1
         }
-        else {
-            updateSelectionDisplay()
-        }
+        updateSelectionDisplay()
     }
     
     func shiftUp() {
