@@ -89,7 +89,7 @@ class KeyboardViewController: UIInputViewController {
                 Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(KeyboardViewController.selectMovement), userInfo: nil, repeats: true)
             }
             else {
-                //did not activate gyro and motion update properly
+                // did not activate gyro and motion update properly
             }
         }
         else {
@@ -101,10 +101,10 @@ class KeyboardViewController: UIInputViewController {
      * Core functions.
      */
 
-    var ctr = 6 //used for determining speed of gyroscope
+    var ctr = 6 // used for determining speed of gyroscope
 
     func selectMovement() {
-        if (ctr > 2) { //prevent integer overflow
+        if (ctr > 2) { // prevent integer overflow
             ctr -= 1
         }
         if let data = manager.accelerometerData {
@@ -112,16 +112,10 @@ class KeyboardViewController: UIInputViewController {
                 if (data.acceleration.x * 10 >= Double(ctr)) {
                     shiftRight()
                     ctr = 6
-                    if (data.acceleration.x < 0.5) {
-                        speakSelected()
-                    }
                 }
                 else if (data.acceleration.x * -10 >= Double(ctr)) {
                     shiftLeft()
                     ctr = 6
-                    if (data.acceleration.x > -0.5) {
-                        speakSelected()
-                    }
                 }
             }
         }
@@ -172,7 +166,6 @@ class KeyboardViewController: UIInputViewController {
         dynamicLabel.text = keyboardRows[selectedRowIndex][selectedCharIndex]
         dynamicLabel.font = dynamicLabel.font.withSize(190)
 
-        
         view.addSubview(dynamicLabel)
         return dynamicLabel
     }
@@ -182,9 +175,6 @@ class KeyboardViewController: UIInputViewController {
         if(selectedCharIndex < 0) {
             selectedCharIndex = 0
         }
-        //this and similar calls below use the haptics library new in ios9 but not sure if it actually works on the device
-        AudioServicesPlaySystemSound(1519)
-//        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
         updateSelectionDisplay()
     }
     
@@ -193,8 +183,6 @@ class KeyboardViewController: UIInputViewController {
         if(selectedCharIndex >= keyboardRows[selectedRowIndex].count) {
             selectedCharIndex = keyboardRows[selectedRowIndex].count - 1
         }
-        AudioServicesPlaySystemSound(1519)
-//        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
         updateSelectionDisplay()
     }
     
@@ -206,8 +194,6 @@ class KeyboardViewController: UIInputViewController {
         if(selectedRowIndex != 0) {
             selectedCharIndex = 0
         }
-        AudioServicesPlaySystemSound(1520)
-//        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
         updateSelectionDisplay()
     }
     
@@ -219,11 +205,6 @@ class KeyboardViewController: UIInputViewController {
         if(selectedRowIndex != 1) {
             selectedCharIndex = 0
         }
-        AudioServicesPlaySystemSound(1520)
-        
-        
-//        AudioServicesPlaySystemSoundWithVibration(4095,nil,{@"VibePattern":[],@"Intensity":0.25})
-//        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
         updateSelectionDisplay()
     }
     
@@ -254,7 +235,6 @@ class KeyboardViewController: UIInputViewController {
     func insertSelectedCharacter(_ sender: UITapGestureRecognizer){
         let selectedCharacter = keyboardRows[selectedRowIndex][selectedCharIndex]
         (textDocumentProxy as UIKeyInput).insertText(selectedCharacter)
-        //speakSelected();
     }
     
     func enterDelete() {
@@ -266,16 +246,7 @@ class KeyboardViewController: UIInputViewController {
     }
     
     func speakSelected() {
-        //let toSay = keyboardRows[selectedRowIndex][selectedCharIndex]
-        //let speechUtterance = AVSpeechUtterance(string: toSay)
-        //if (speechSynthesizer.isSpeaking)
-        //{
-        //    speechSynthesizer.stopSpeaking(at: AVSpeechBoundary.immediate)
-        //}
-        //speechSynthesizer.speak(speechUtterance)
-        let selectedCharacter = keyboardRows[selectedRowIndex][selectedCharIndex]
-        (textDocumentProxy as UIKeyInput).insertText(selectedCharacter)
-        (textDocumentProxy as UIKeyInput).deleteBackward()
+        UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, selectionDisplay)
     }
     
     /*
@@ -304,5 +275,6 @@ class KeyboardViewController: UIInputViewController {
     func updateSelectionDisplay() {
         selectionDisplay.text = keyboardRows[selectedRowIndex][selectedCharIndex]
         selectionDisplay.backgroundColor = rowColors[selectedRowIndex]
+        UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(selectionDisplay.text!, comment: ""))
     }
 }
