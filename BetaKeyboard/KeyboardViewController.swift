@@ -206,7 +206,7 @@ class KeyboardViewController: UIInputViewController {
         if(selectedRowIndex >= keyboardRows.count) {
             selectedRowIndex = keyboardRows.count - 1
         }
-        if(selectedRowIndex != 1) {
+        else if(selectedRowIndex != 1) {
             selectedCharIndex = 0
         }
         updateSelectionDisplay()
