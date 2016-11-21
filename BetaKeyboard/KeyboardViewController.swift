@@ -279,9 +279,9 @@ class KeyboardViewController: UIInputViewController {
     }
 
     func updateSelectionDisplay() {
-        selectionDisplay.text = keyboardRows[selectedRowIndex][selectedCharIndex]
-        selectionDisplay.backgroundColor = rowColors[selectedRowIndex]
         let text = keyboardRows[selectedRowIndex][selectedCharIndex]
+        selectionDisplay.text = text
+        selectionDisplay.backgroundColor = rowColors[selectedRowIndex]
         UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(text, comment: ""))
     }
 }
