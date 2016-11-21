@@ -138,7 +138,7 @@ class KeyboardViewController: UIInputViewController {
         nextKeyboardButton.isAccessibilityElement = false
     }
     
-    func createKeyboardRows() -> [[String]]{
+    func createKeyboardRows() -> [[String]] {
         var rows: [[String]] = []
         rows.append(createUpperAlphabetRow())
         rowColors.append(UIColor.purple)
