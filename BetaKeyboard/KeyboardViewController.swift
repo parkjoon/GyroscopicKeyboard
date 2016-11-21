@@ -224,6 +224,8 @@ class KeyboardViewController: UIInputViewController {
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(insertSelectedCharacter (_:)))
         
+        // add two finger tap here
+        
         view.addGestureRecognizer(swipeDown)
         view.addGestureRecognizer(swipeUp)
         view.addGestureRecognizer(swipeLeft)
@@ -275,6 +277,7 @@ class KeyboardViewController: UIInputViewController {
     func updateSelectionDisplay() {
         selectionDisplay.text = keyboardRows[selectedRowIndex][selectedCharIndex]
         selectionDisplay.backgroundColor = rowColors[selectedRowIndex]
-        UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(selectionDisplay.text!, comment: ""))
+        let text = keyboardRows[selectedRowIndex][selectedCharIndex]
+        UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(text, comment: ""))
     }
 }
