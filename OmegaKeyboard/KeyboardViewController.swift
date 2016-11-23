@@ -255,18 +255,8 @@ class KeyboardViewController: UIInputViewController {
     }
     
     // Say the content of the text field.
-    // TODO: test this
     func speakContent() {
-        var content = "test"
-//        for view in self.view.subviews {
-//            if (view.isFirstResponder) {
-//                let textView = view as! UITextView
-//                content = textView.text
-//                break
-//            }
-//        }
-        
-        UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, "hello hello hello hello hello")
+        UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, textDocumentProxy.documentContextBeforeInput)
         
     }
     
