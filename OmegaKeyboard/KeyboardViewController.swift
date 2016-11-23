@@ -257,23 +257,22 @@ class KeyboardViewController: UIInputViewController {
     // Say the content of the text field.
     // TODO: test this
     func speakContent() {
-        var content = ""
-        for view in self.view.subviews {
-            if (view.isFirstResponder) {
-                let textView = view as! UITextView
-                content = textView.text
-                break
-            }
-        }
+        var content = "test"
+//        for view in self.view.subviews {
+//            if (view.isFirstResponder) {
+//                let textView = view as! UITextView
+//                content = textView.text
+//                break
+//            }
+//        }
         
-        UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(content, comment: ""))
+        UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, "hello hello hello hello hello")
+        
     }
     
     // Stop any and all currently playing audio.
     func stopSpeaking() {
-        // Pause and resume VoiceOver. Not sure if this works as intended.
-        UIAccessibilityPostNotification(UIAccessibilityPauseAssistiveTechnologyNotification, nil);
-        UIAccessibilityPostNotification(UIAccessibilityResumeAssistiveTechnologyNotification, nil);
+        UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, "Readback stopped.")
     }
     
     /*
