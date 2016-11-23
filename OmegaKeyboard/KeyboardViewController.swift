@@ -31,7 +31,7 @@ class KeyboardViewController: UIInputViewController {
     }
     
     override func viewDidLayoutSubviews() {
-        if(UIScreen.main.bounds.size.width < UIScreen.main.bounds.size.height){
+        if(UIScreen.main.bounds.size.width < UIScreen.main.bounds.size.height) {
             // Keyboard is in Portrait
             let screenSize: CGRect = UIScreen.main.bounds
             selectionDisplay.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: 216)
@@ -224,6 +224,7 @@ class KeyboardViewController: UIInputViewController {
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(insertSelectedCharacter (_:)))
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(pressEnter))
+        let pinch = UIPinchGestureRecognizer(target: self, action: #selector(stopSpeaking))
         
         view.addGestureRecognizer(swipeDown)
         view.addGestureRecognizer(swipeUp)
@@ -231,6 +232,7 @@ class KeyboardViewController: UIInputViewController {
         view.addGestureRecognizer(swipeRight)
         view.addGestureRecognizer(tap)
         view.addGestureRecognizer(longPress)
+        view.addGestureRecognizer(pinch)
         isGyroAvailable()
     }
     
@@ -241,6 +243,7 @@ class KeyboardViewController: UIInputViewController {
     
     func pressEnter() {
         (textDocumentProxy as UIKeyInput).insertText("\n")
+        speakContent()
     }
     
     func enterDelete() {
@@ -251,8 +254,26 @@ class KeyboardViewController: UIInputViewController {
         (textDocumentProxy as UIKeyInput).insertText(" ")
     }
     
-    func speakSelected() {
-        UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, selectionDisplay)
+    // Say the content of the text field.
+    // TODO: test this
+    func speakContent() {
+        var content = ""
+        for view in self.view.subviews {
+            if (view.isFirstResponder) {
+                let textView = view as! UITextView
+                content = textView.text
+                break
+            }
+        }
+        
+        UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(content, comment: ""))
+    }
+    
+    // Stop any and all currently playing audio.
+    func stopSpeaking() {
+        // Pause and resume VoiceOver. Not sure if this works as intended.
+        UIAccessibilityPostNotification(UIAccessibilityPauseAssistiveTechnologyNotification, nil);
+        UIAccessibilityPostNotification(UIAccessibilityResumeAssistiveTechnologyNotification, nil);
     }
     
     /*
