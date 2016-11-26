@@ -175,9 +175,7 @@ class KeyboardViewController: UIInputViewController {
         if(selectedCharIndex < 0) {
             selectedCharIndex = 0
         }
-        else {
-            updateSelectionDisplay()
-        }
+        updateSelectionDisplay()
     }
     
     func shiftRight() {
@@ -185,9 +183,7 @@ class KeyboardViewController: UIInputViewController {
         if(selectedCharIndex >= keyboardRows[selectedRowIndex].count) {
             selectedCharIndex = keyboardRows[selectedRowIndex].count - 1
         }
-        else {
-            updateSelectionDisplay()
-        }
+        updateSelectionDisplay()
     }
     
     func shiftUp() {
@@ -283,9 +279,9 @@ class KeyboardViewController: UIInputViewController {
     }
 
     func updateSelectionDisplay() {
-        selectionDisplay.text = keyboardRows[selectedRowIndex][selectedCharIndex]
-        selectionDisplay.backgroundColor = rowColors[selectedRowIndex]
         let text = keyboardRows[selectedRowIndex][selectedCharIndex]
-        UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(text, comment: ""))
+        selectionDisplay.text = text
+        selectionDisplay.backgroundColor = rowColors[selectedRowIndex]
+        UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(selectionDisplay.text!, comment: ""))
     }
 }
