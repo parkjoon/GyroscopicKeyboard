@@ -281,7 +281,7 @@ class KeyboardViewController: UIInputViewController {
     }
     
     func createPunctuationRow() -> [String] {
-        return [".", ",", "!"]
+        return [".", ",", "!", "?"]
     }
     
     func createSymbolRow() -> [String] {
