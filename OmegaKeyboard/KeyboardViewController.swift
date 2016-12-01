@@ -23,6 +23,14 @@ class KeyboardViewController: UIInputViewController {
     var rowColors: [UIColor] = []
     
     /*
+     * Auto-complete variables
+     */
+    var dictionary: [String] = [] //Words sorted from most frequent to least frequent
+    var curWord: String //Current word being entered thus far
+    var dictStart: Int = 0 //Where to start searching the dictionary from
+    var nextWord: String //Auto-complete word for selected character
+    
+    /*
      * Class utility functions.
      */
     override func updateViewConstraints() {
@@ -293,5 +301,38 @@ class KeyboardViewController: UIInputViewController {
         selectionDisplay.text = text
         selectionDisplay.backgroundColor = rowColors[selectedRowIndex]
         UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(selectionDisplay.text!, comment: ""))
+    }
+    
+    /*
+     * Auto-complete related functions.
+     */
+    func getPositionInDictionary() -> Int {
+        for i in dictStart...(dictionary.count-1) {
+            if (dictionary[i].characters.count > curWord.characters.count) {
+                if (dictionary[i].hasPrefix(curWord.lowercased())) {
+                    return i
+                }
+            }
+        }
+        return dictionary.count
+    }
+    
+    func getAutoCompleteWord() -> String {
+        var searchTerm = curWord + keyboardRows[selectedRowIndex][selectedCharIndex]
+        for i in dictStart...(dictionary.count-1) {
+            if (dictionary[i].characters.count >= searchTerm.characters.count) {
+                if (dictionary[i].hasPrefix(searchTerm.lowercased())) {
+                    return dictionary[i]
+                }
+            }
+        }
+        return ""
+    }
+    
+    func enterAutoCompleteWord() {
+        (textDocumentProxy as UIKeyInput).insertText(nextWord + " ")
+        curWord = ""
+        nextWord = ""
+        dictStart = 0
     }
 }
