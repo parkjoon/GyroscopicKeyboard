@@ -26,9 +26,9 @@ class KeyboardViewController: UIInputViewController {
      * Auto-complete variables
      */
     var dictionary: [String] = [] //Words sorted from most frequent to least frequent
-    var curWord: String //Current word being entered thus far
+    var curWord: String = "" //Current word being entered thus far
     var dictStart: Int = 0 //Where to start searching the dictionary from
-    var nextWord: String //Auto-complete word for selected character
+    var nextWord: String = "" //Auto-complete word for selected character
     
     /*
      * Class utility functions.
