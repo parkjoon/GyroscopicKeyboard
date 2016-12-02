@@ -39,14 +39,14 @@ class KeyboardViewController: UIInputViewController {
     }
     
     override func viewDidLayoutSubviews() {
+        let screenSize: CGRect = UIScreen.main.bounds
         if(UIScreen.main.bounds.size.width < UIScreen.main.bounds.size.height) {
             // Keyboard is in Portrait
-            let screenSize: CGRect = UIScreen.main.bounds
-            selectionDisplay.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: 216)
+            selectionDisplay.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: (screenSize.height / 3.08))
         }
         else{
             // Keyboard is in Landscape
-            selectionDisplay.frame = CGRect(x: 0, y: 0, width: 670, height: 135)
+            selectionDisplay.frame = CGRect(x: 0, y: 0, width: screenSize.height, height: (screenSize.width / 3.08))
         }
     }
     
