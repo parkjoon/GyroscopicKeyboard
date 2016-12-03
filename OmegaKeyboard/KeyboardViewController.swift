@@ -58,8 +58,10 @@ class KeyboardViewController: UIInputViewController {
         selectionDisplay = createSelectionDisplay()
         addNextKeyboardButton()
         addGestures()
+        fillDict()
         selectionDisplay.accessibilityTraits = UIAccessibilityTraitAllowsDirectInteraction
         self.accessibilityTraits = UIAccessibilityTraitAllowsDirectInteraction
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -306,6 +308,26 @@ class KeyboardViewController: UIInputViewController {
     /*
      * Auto-complete related functions.
      */
+    
+    
+    func fillDict() {
+        let path = Bundle.main.path(forResource: "filename", ofType: "txt")
+        var dictStr = ""
+        do {
+            dictStr = try String(contentsOfFile: path!, encoding: String.Encoding.utf8)
+            let dictArray = dictStr.components(separatedBy: .newlines)
+            for line in dictArray {
+                let lineArray = line.characters.split(separator: "\t").map(String.init)
+                dictionary.append(lineArray[1])
+                
+            }
+            
+            
+            
+        } catch let error as NSError {
+            print("Failed reading from URL: \(path), Error: " + error.localizedDescription)
+        }
+    }
     func getPositionInDictionary() -> Int {
         for i in dictStart...(dictionary.count-1) {
             if (dictionary[i].characters.count > curWord.characters.count) {
