@@ -239,10 +239,10 @@ class KeyboardViewController: UIInputViewController {
         let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(shiftUp))
         swipeUp.direction = UISwipeGestureRecognizerDirection.up
         
-        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(shiftLeft))
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(enterDelete))
         swipeLeft.direction = UISwipeGestureRecognizerDirection.left
         
-        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(shiftRight))
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(enterSpace))
         swipeRight.direction = UISwipeGestureRecognizerDirection.right
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(insertSelectedCharacter (_:)))
