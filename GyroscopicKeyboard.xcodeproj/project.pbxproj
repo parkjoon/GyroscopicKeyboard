@@ -19,6 +19,7 @@
 		29BB3C1E1DC0F78E00A888A0 /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29BB3C1D1DC0F78E00A888A0 /* KeyboardViewController.swift */; };
 		29BB3C221DC0F78E00A888A0 /* BetaKeyboard.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 29BB3C1B1DC0F78E00A888A0 /* BetaKeyboard.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		BE5295B21DF25180006D5940 /* dictionary.txt in Resources */ = {isa = PBXBuildFile; fileRef = BE5295B11DF2517F006D5940 /* dictionary.txt */; };
+		BE5295B51DF26A82006D5940 /* dictionary.txt in Resources */ = {isa = PBXBuildFile; fileRef = BE5295B11DF2517F006D5940 /* dictionary.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -160,8 +161,8 @@
 		2964401F1DE21D240006464D /* OmegaKeyboard */ = {
 			isa = PBXGroup;
 			children = (
-				BE5295B11DF2517F006D5940 /* dictionary.txt */,
 				296440201DE21D240006464D /* KeyboardViewController.swift */,
+				BE5295B11DF2517F006D5940 /* dictionary.txt */,
 				296440221DE21D240006464D /* Info.plist */,
 			);
 			path = OmegaKeyboard;
@@ -326,6 +327,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE5295B51DF26A82006D5940 /* dictionary.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -29,7 +29,7 @@ class KeyboardViewController: UIInputViewController {
     var curWord: String = "" //Current word being entered thus far
     var dictStart: Int = 0 //Where to start searching the dictionary from
     var nextWord: String = "" //Auto-complete word for selected character
-    
+    var dictString: String = ""
     /*
      * Class utility functions.
      */
@@ -309,25 +309,40 @@ class KeyboardViewController: UIInputViewController {
      * Auto-complete related functions.
      */
     
-    
-    func fillDict() {
-        let path = Bundle.main.path(forResource: "dictionary", ofType: "txt")
-        var dictStr = ""
-        do {
-            dictStr = try String(contentsOfFile: path!, encoding: String.Encoding.utf8)
-            let dictArray = dictStr.components(separatedBy: .newlines)
-            for line in dictArray {
-                let lineArray = line.characters.split(separator: "\t").map(String.init)
-                dictionary.append(lineArray[1])
-                
-            }
-            
-            
-            
-        } catch let error as NSError {
-            print("Failed reading from URL: \(path), Error: " + error.localizedDescription)
+    func testDict() {
+        for word in dictionary {
+            (textDocumentProxy as UIKeyInput).insertText(word)
         }
     }
+    func fillDict() {
+        let path = Bundle.main.path(forResource: "dictionary", ofType: "txt")
+        do {
+            dictString = try String(contentsOfFile: path!, encoding: String.Encoding.utf8)
+            
+            let dictArray = dictString.components(separatedBy: .newlines)
+            for line in dictArray {
+                if line.isEmpty {
+                    break
+                }
+                let lineArray = line.characters.split(separator: "\t").map(String.init)
+                dictionary.append(lineArray[1])
+            }
+    
+        } catch let error as NSError {
+            print("file read failed: \(path), Error: " + error.localizedDescription)
+        }
+    }
+//    func testFile() {
+//        let path = Bundle.main.path(forResource: "dictionary", ofType: "txt")
+//        (textDocumentProxy as UIKeyInput).insertText(path!)
+//
+////        var readStringProject = ""
+////        do {
+////             readStringProject = try String(contentsOfFile: path!, encoding: String.Encoding.utf8)
+////        } catch let error as NSError {
+////            print("Failed reading from URL: \(path), Error: " + error.localizedDescription)
+////        }
+//    }
     func getPositionInDictionary() -> Int {
         for i in dictStart...(dictionary.count-1) {
             if (dictionary[i].characters.count > curWord.characters.count) {
