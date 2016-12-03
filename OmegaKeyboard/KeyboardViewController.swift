@@ -311,7 +311,7 @@ class KeyboardViewController: UIInputViewController {
     
     
     func fillDict() {
-        let path = Bundle.main.path(forResource: "filename", ofType: "txt")
+        let path = Bundle.main.path(forResource: "dictionary", ofType: "txt")
         var dictStr = ""
         do {
             dictStr = try String(contentsOfFile: path!, encoding: String.Encoding.utf8)
