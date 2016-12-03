@@ -20,6 +20,7 @@ class KeyboardViewController: UIInputViewController {
     var selectedRowIndex: Int = 0
     var selectedCharIndex: Int = 0
     var selectionDisplay: UILabel!
+    var autocompleteDisplay: UILabel!
     var rowColors: [UIColor] = []
     
     /*
@@ -56,8 +57,11 @@ class KeyboardViewController: UIInputViewController {
         selectedRowIndex = 1
         selectedCharIndex = 0
         selectionDisplay = createSelectionDisplay()
+        autocompleteDisplay = createACDisplay()
+
         addNextKeyboardButton()
         addGestures()
+        
         fillDict()
         selectionDisplay.accessibilityTraits = UIAccessibilityTraitAllowsDirectInteraction
         self.accessibilityTraits = UIAccessibilityTraitAllowsDirectInteraction
@@ -180,6 +184,15 @@ class KeyboardViewController: UIInputViewController {
         return dynamicLabel
     }
     
+    func createACDisplay() -> UILabel {
+        let acLabel: UILabel = UILabel()
+        let screenSize: CGRect = UIScreen.main.bounds
+        acLabel.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: 30)
+        acLabel.backgroundColor = UIColor.darkGray
+        view.addSubview(acLabel)
+        return acLabel
+    }
+    
     func shiftLeft() {
         selectedCharIndex -= 1
         if(selectedCharIndex < 0) {
@@ -226,15 +239,18 @@ class KeyboardViewController: UIInputViewController {
         let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(shiftUp))
         swipeUp.direction = UISwipeGestureRecognizerDirection.up
         
-        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(enterDelete))
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(shiftLeft))
         swipeLeft.direction = UISwipeGestureRecognizerDirection.left
         
-        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(enterSpace))
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(shiftRight))
         swipeRight.direction = UISwipeGestureRecognizerDirection.right
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(insertSelectedCharacter (_:)))
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(pressEnter))
         let pinch = UIPinchGestureRecognizer(target: self, action: #selector(stopSpeaking))
+        
+        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(enterAutoCompleteWord))
+        doubleTap.numberOfTapsRequired = 2
         
         view.addGestureRecognizer(swipeDown)
         view.addGestureRecognizer(swipeUp)
@@ -243,12 +259,16 @@ class KeyboardViewController: UIInputViewController {
         view.addGestureRecognizer(tap)
         view.addGestureRecognizer(longPress)
         view.addGestureRecognizer(pinch)
+        view.addGestureRecognizer(doubleTap)
+        
         isGyroAvailable()
     }
     
     func insertSelectedCharacter(_ sender: UITapGestureRecognizer){
         let selectedCharacter = keyboardRows[selectedRowIndex][selectedCharIndex]
         (textDocumentProxy as UIKeyInput).insertText(selectedCharacter)
+        updateACDisplay()
+
     }
     
     func pressEnter() {
@@ -332,17 +352,7 @@ class KeyboardViewController: UIInputViewController {
             print("file read failed: \(path), Error: " + error.localizedDescription)
         }
     }
-//    func testFile() {
-//        let path = Bundle.main.path(forResource: "dictionary", ofType: "txt")
-//        (textDocumentProxy as UIKeyInput).insertText(path!)
-//
-////        var readStringProject = ""
-////        do {
-////             readStringProject = try String(contentsOfFile: path!, encoding: String.Encoding.utf8)
-////        } catch let error as NSError {
-////            print("Failed reading from URL: \(path), Error: " + error.localizedDescription)
-////        }
-//    }
+
     func getPositionInDictionary() -> Int {
         for i in dictStart...(dictionary.count-1) {
             if (dictionary[i].characters.count > curWord.characters.count) {
@@ -366,7 +376,13 @@ class KeyboardViewController: UIInputViewController {
         return ""
     }
     
+    func updateACDisplay() {
+        let acWord = getAutoCompleteWord()
+        autocompleteDisplay.text = acWord
+    }
+   
     func enterAutoCompleteWord() {
+        nextWord = getAutoCompleteWord()
         (textDocumentProxy as UIKeyInput).insertText(nextWord + " ")
         curWord = ""
         nextWord = ""
