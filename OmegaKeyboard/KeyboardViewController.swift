@@ -199,6 +199,7 @@ class KeyboardViewController: UIInputViewController {
             selectedCharIndex = 0
         }
         updateSelectionDisplay()
+        updateACDisplay()
     }
     
     func shiftRight() {
@@ -207,6 +208,7 @@ class KeyboardViewController: UIInputViewController {
             selectedCharIndex = keyboardRows[selectedRowIndex].count - 1
         }
         updateSelectionDisplay()
+        updateACDisplay()
     }
     
     func shiftUp() {
@@ -218,6 +220,7 @@ class KeyboardViewController: UIInputViewController {
             selectedCharIndex = 0
         }
         updateSelectionDisplay()
+        updateACDisplay()
     }
     
     func shiftDown() {
@@ -229,6 +232,7 @@ class KeyboardViewController: UIInputViewController {
             selectedCharIndex = 0
         }
         updateSelectionDisplay()
+        updateACDisplay()
     }
     
     func addGestures() {
@@ -267,21 +271,27 @@ class KeyboardViewController: UIInputViewController {
     func insertSelectedCharacter(_ sender: UITapGestureRecognizer){
         let selectedCharacter = keyboardRows[selectedRowIndex][selectedCharIndex]
         (textDocumentProxy as UIKeyInput).insertText(selectedCharacter)
+        curWord = getCurWord()
         updateACDisplay()
-
     }
     
     func pressEnter() {
         (textDocumentProxy as UIKeyInput).insertText("\n")
         speakContent()
+        curWord = ""
+        updateACDisplay()
     }
     
     func enterDelete() {
         (textDocumentProxy as UIKeyInput).deleteBackward()
+        curWord = getCurWord()
+        updateACDisplay()
     }
     
     func enterSpace() {
         (textDocumentProxy as UIKeyInput).insertText(" ")
+        curWord = ""
+        updateACDisplay()
     }
     
     // Say the content of the text field.
@@ -379,13 +389,27 @@ class KeyboardViewController: UIInputViewController {
     func updateACDisplay() {
         let acWord = getAutoCompleteWord()
         autocompleteDisplay.text = acWord
+        //autocompleteDisplay.text = getCurWord()
     }
    
     func enterAutoCompleteWord() {
         nextWord = getAutoCompleteWord()
-        (textDocumentProxy as UIKeyInput).insertText(nextWord + " ")
+        if (nextWord != "") {
+            let index = nextWord.index(nextWord.startIndex, offsetBy: curWord.characters.count)
+            (textDocumentProxy as UIKeyInput).insertText(nextWord.substring(from: index))
+            curWord = ""
+            nextWord = ""
+            dictStart = 0
+        }
+        (textDocumentProxy as UIKeyInput).insertText(" ")
         curWord = ""
         nextWord = ""
         dictStart = 0
+    }
+    
+    func getCurWord() -> String {
+        let text = textDocumentProxy.documentContextBeforeInput
+        let words = text?.components(separatedBy: " ")
+        return words![words!.count-1]
     }
 }
