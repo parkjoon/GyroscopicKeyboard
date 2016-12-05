@@ -419,20 +419,21 @@ class KeyboardViewController: UIInputViewController {
         enterDelete()
         (textDocumentProxy as UIKeyInput).insertText(keyboardRows[selectedRowIndex][selectedCharIndex])
         nextWord = getAutoCompleteWord()
+        for i in 0...curWord.characters.count-1 {
+            (textDocumentProxy as UIKeyInput).deleteBackward()
+        }
+        (textDocumentProxy as UIKeyInput).insertText(curWord)
         if (nextWord == "") {
             return
         }
 //        if (nextWord != "") {
             let index = nextWord.index(nextWord.startIndex, offsetBy: curWord.characters.count + 1)
             (textDocumentProxy as UIKeyInput).insertText(nextWord.substring(from: index))
-            UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, " ")
-            UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(nextWord, comment: ""))
             //curWord = ""
             //nextWord = ""
             //dictStart = 0
 //        }
-        (textDocumentProxy as UIKeyInput).insertText("  ")
-        (textDocumentProxy as UIKeyInput).deleteBackward()
+        (textDocumentProxy as UIKeyInput).insertText(" ")
         curWord = ""
         nextWord = ""
         dictStart = 0
