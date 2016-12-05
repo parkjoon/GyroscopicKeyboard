@@ -191,6 +191,7 @@ class KeyboardViewController: UIInputViewController {
         let screenSize: CGRect = UIScreen.main.bounds
         acLabel.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: 30)
         acLabel.backgroundColor = UIColor.darkGray
+        acLabel.textColor = UIColor.white
         view.addSubview(acLabel)
         return acLabel
     }
@@ -256,7 +257,7 @@ class KeyboardViewController: UIInputViewController {
         let doubleTap = UITapGestureRecognizer(target: self, action: #selector(enterAutoCompleteWord))
         doubleTap.numberOfTapsRequired = 2
         
-        tap.require(toFail: doubleTap)
+//        tap.require(toFail: doubleTap)
 
         
         view.addGestureRecognizer(swipeDown)
@@ -396,6 +397,7 @@ class KeyboardViewController: UIInputViewController {
     }
    
     func enterAutoCompleteWord() {
+        enterDelete()
         nextWord = getAutoCompleteWord()
         if (nextWord != "") {
             let index = nextWord.index(nextWord.startIndex, offsetBy: curWord.characters.count)
