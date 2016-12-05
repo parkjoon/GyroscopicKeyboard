@@ -413,6 +413,9 @@ class KeyboardViewController: UIInputViewController {
     
     func getCurWord() -> String {
         let text = textDocumentProxy.documentContextBeforeInput
+        if (text?.characters.count == 0) {
+            return ""
+        }
         let words = text?.components(separatedBy: " ")
         return words![words!.count-1]
     }
