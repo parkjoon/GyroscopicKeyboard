@@ -20,8 +20,17 @@ class KeyboardViewController: UIInputViewController {
     var selectedRowIndex: Int = 0
     var selectedCharIndex: Int = 0
     var selectionDisplay: UILabel!
+    var autocompleteDisplay: UILabel!
     var rowColors: [UIColor] = []
     
+    /*
+     * Auto-complete variables
+     */
+    var dictionary: [String] = [] //Words sorted from most frequent to least frequent
+    var curWord: String = "" //Current word being entered thus far
+    var dictStart: Int = 0 //Where to start searching the dictionary from
+    var nextWord: String = "" //Auto-complete word for selected character
+    var dictString: String = ""
     /*
      * Class utility functions.
      */
@@ -31,14 +40,14 @@ class KeyboardViewController: UIInputViewController {
     }
     
     override func viewDidLayoutSubviews() {
+        let screenSize: CGRect = UIScreen.main.bounds
         if(UIScreen.main.bounds.size.width < UIScreen.main.bounds.size.height) {
             // Keyboard is in Portrait
-            let screenSize: CGRect = UIScreen.main.bounds
-            selectionDisplay.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: 216)
+            selectionDisplay.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: (screenSize.height / 3.08))
         }
         else{
             // Keyboard is in Landscape
-            selectionDisplay.frame = CGRect(x: 0, y: 0, width: 670, height: 135)
+            selectionDisplay.frame = CGRect(x: 0, y: 0, width: screenSize.height, height: (screenSize.width / 3.08))
         }
     }
     
@@ -48,10 +57,17 @@ class KeyboardViewController: UIInputViewController {
         selectedRowIndex = 1
         selectedCharIndex = 0
         selectionDisplay = createSelectionDisplay()
+        autocompleteDisplay = createACDisplay()
+
         addNextKeyboardButton()
         addGestures()
+        
+        fillDict()
         selectionDisplay.accessibilityTraits = UIAccessibilityTraitAllowsDirectInteraction
+        selectionDisplay.isAccessibilityElement = true
         self.accessibilityTraits = UIAccessibilityTraitAllowsDirectInteraction
+        
+        updateACDisplay()
     }
     
     override func didReceiveMemoryWarning() {
@@ -170,20 +186,29 @@ class KeyboardViewController: UIInputViewController {
         return dynamicLabel
     }
     
+    func createACDisplay() -> UILabel {
+        let acLabel: UILabel = UILabel()
+        let screenSize: CGRect = UIScreen.main.bounds
+        acLabel.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: 30)
+        acLabel.backgroundColor = UIColor.darkGray
+        view.addSubview(acLabel)
+        return acLabel
+    }
+    
     func shiftLeft() {
-        selectedCharIndex -= 1
-        if(selectedCharIndex < 0) {
-            selectedCharIndex = 0
+        if(selectedCharIndex > 0) {
+            selectedCharIndex -= 1
         }
         updateSelectionDisplay()
+        updateACDisplay()
     }
     
     func shiftRight() {
-        selectedCharIndex += 1
-        if(selectedCharIndex >= keyboardRows[selectedRowIndex].count) {
-            selectedCharIndex = keyboardRows[selectedRowIndex].count - 1
+        if(selectedCharIndex < keyboardRows[selectedRowIndex].count - 1) {
+            selectedCharIndex += 1
         }
         updateSelectionDisplay()
+        updateACDisplay()
     }
     
     func shiftUp() {
@@ -195,6 +220,7 @@ class KeyboardViewController: UIInputViewController {
             selectedCharIndex = 0
         }
         updateSelectionDisplay()
+        updateACDisplay()
     }
     
     func shiftDown() {
@@ -206,6 +232,7 @@ class KeyboardViewController: UIInputViewController {
             selectedCharIndex = 0
         }
         updateSelectionDisplay()
+        updateACDisplay()
     }
     
     func addGestures() {
@@ -226,6 +253,12 @@ class KeyboardViewController: UIInputViewController {
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(pressEnter))
         let pinch = UIPinchGestureRecognizer(target: self, action: #selector(stopSpeaking))
         
+        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(enterAutoCompleteWord))
+        doubleTap.numberOfTapsRequired = 2
+        
+        tap.require(toFail: doubleTap)
+
+        
         view.addGestureRecognizer(swipeDown)
         view.addGestureRecognizer(swipeUp)
         view.addGestureRecognizer(swipeLeft)
@@ -233,25 +266,35 @@ class KeyboardViewController: UIInputViewController {
         view.addGestureRecognizer(tap)
         view.addGestureRecognizer(longPress)
         view.addGestureRecognizer(pinch)
+        view.addGestureRecognizer(doubleTap)
+        
         isGyroAvailable()
     }
     
     func insertSelectedCharacter(_ sender: UITapGestureRecognizer){
         let selectedCharacter = keyboardRows[selectedRowIndex][selectedCharIndex]
         (textDocumentProxy as UIKeyInput).insertText(selectedCharacter)
+        curWord = getCurWord()
+        updateACDisplay()
     }
     
     func pressEnter() {
         (textDocumentProxy as UIKeyInput).insertText("\n")
         speakContent()
+        curWord = ""
+        updateACDisplay()
     }
     
     func enterDelete() {
         (textDocumentProxy as UIKeyInput).deleteBackward()
+        curWord = getCurWord()
+        updateACDisplay()
     }
     
     func enterSpace() {
         (textDocumentProxy as UIKeyInput).insertText(" ")
+        curWord = ""
+        updateACDisplay()
     }
     
     // Say the content of the text field.
@@ -293,5 +336,84 @@ class KeyboardViewController: UIInputViewController {
         selectionDisplay.text = text
         selectionDisplay.backgroundColor = rowColors[selectedRowIndex]
         UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(selectionDisplay.text!, comment: ""))
+    }
+    
+    /*
+     * Auto-complete related functions.
+     */
+    
+    func testDict() {
+        for word in dictionary {
+            (textDocumentProxy as UIKeyInput).insertText(word)
+        }
+    }
+    func fillDict() {
+        let path = Bundle.main.path(forResource: "dictionary", ofType: "txt")
+        do {
+            dictString = try String(contentsOfFile: path!, encoding: String.Encoding.utf8)
+            
+            let dictArray = dictString.components(separatedBy: .newlines)
+            for line in dictArray {
+                if line.isEmpty {
+                    break
+                }
+                let lineArray = line.characters.split(separator: "\t").map(String.init)
+                dictionary.append(lineArray[1])
+            }
+    
+        } catch let error as NSError {
+            print("file read failed: \(path), Error: " + error.localizedDescription)
+        }
+    }
+
+    func getPositionInDictionary() -> Int {
+        for i in dictStart...(dictionary.count-1) {
+            if (dictionary[i].characters.count > curWord.characters.count) {
+                if (dictionary[i].hasPrefix(curWord.lowercased())) {
+                    return i
+                }
+            }
+        }
+        return dictionary.count
+    }
+    
+    func getAutoCompleteWord() -> String {
+        var searchTerm = curWord + keyboardRows[selectedRowIndex][selectedCharIndex]
+        for i in dictStart...(dictionary.count-1) {
+            if (dictionary[i].characters.count >= searchTerm.characters.count) {
+                if (dictionary[i].hasPrefix(searchTerm.lowercased())) {
+                    return dictionary[i]
+                }
+            }
+        }
+        return ""
+    }
+    
+    func updateACDisplay() {
+        let acWord = getAutoCompleteWord()
+        autocompleteDisplay.text = acWord
+        //autocompleteDisplay.text = getCurWord()
+    }
+   
+    func enterAutoCompleteWord() {
+        nextWord = getAutoCompleteWord()
+        if (nextWord != "") {
+            let index = nextWord.index(nextWord.startIndex, offsetBy: curWord.characters.count)
+            (textDocumentProxy as UIKeyInput).insertText(nextWord.substring(from: index))
+            //curWord = ""
+            //nextWord = ""
+            //dictStart = 0
+        }
+        (textDocumentProxy as UIKeyInput).insertText(" ")
+        curWord = ""
+        nextWord = ""
+        dictStart = 0
+        updateACDisplay()
+    }
+    
+    func getCurWord() -> String {
+        let text = textDocumentProxy.documentContextBeforeInput
+        let words = text?.components(separatedBy: " ")
+        return words![words!.count-1]
     }
 }
