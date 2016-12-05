@@ -331,8 +331,8 @@ class KeyboardViewController: UIInputViewController {
     }
     
     func updateSelectionDisplay() {
-        let text = keyboardRows[selectedRowIndex][selectedCharIndex]
-        selectionDisplay.text = text
+//        let text = keyboardRows[selectedRowIndex][selectedCharIndex]
+        selectionDisplay.text = keyboardRows[selectedRowIndex][selectedCharIndex]
         selectionDisplay.backgroundColor = rowColors[selectedRowIndex]
         if (autocompleteDisplay.text == "") {
             if (selectedRowIndex == 0) {
