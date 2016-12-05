@@ -431,7 +431,8 @@ class KeyboardViewController: UIInputViewController {
             //nextWord = ""
             //dictStart = 0
 //        }
-        (textDocumentProxy as UIKeyInput).insertText(" ")
+        (textDocumentProxy as UIKeyInput).insertText("  ")
+        (textDocumentProxy as UIKeyInput).deleteBackward()
         curWord = ""
         nextWord = ""
         dictStart = 0
