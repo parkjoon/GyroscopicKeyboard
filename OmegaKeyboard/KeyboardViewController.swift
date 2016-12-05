@@ -256,6 +256,9 @@ class KeyboardViewController: UIInputViewController {
         let doubleTap = UITapGestureRecognizer(target: self, action: #selector(enterAutoCompleteWord))
         doubleTap.numberOfTapsRequired = 2
         
+        tap.require(toFail: doubleTap)
+
+        
         view.addGestureRecognizer(swipeDown)
         view.addGestureRecognizer(swipeUp)
         view.addGestureRecognizer(swipeLeft)
