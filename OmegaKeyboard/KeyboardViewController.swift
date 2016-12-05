@@ -245,10 +245,10 @@ class KeyboardViewController: UIInputViewController {
         let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(shiftUp))
         swipeUp.direction = UISwipeGestureRecognizerDirection.up
         
-        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(enterDelete))
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(shiftLeft))
         swipeLeft.direction = UISwipeGestureRecognizerDirection.left
         
-        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(enterSpace))
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(shiftRight))
         swipeRight.direction = UISwipeGestureRecognizerDirection.right
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(insertSelectedCharacter (_:)))
@@ -330,7 +330,7 @@ class KeyboardViewController: UIInputViewController {
     }
     
     func createSymbolRow() -> [String] {
-        return ["-", "_", "+", "(", ")", "=", "@", "%", "#", "$", "%", "&", "*", "^", "~"]
+        return ["-", "_", "+", "(", ")", "=", "@", "%", "#", "$", "/", "&", "*", "^", "~", "[","]","<",">"]
     }
     
     func updateSelectionDisplay() {
