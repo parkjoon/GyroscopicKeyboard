@@ -66,6 +66,8 @@ class KeyboardViewController: UIInputViewController {
         selectionDisplay.accessibilityTraits = UIAccessibilityTraitAllowsDirectInteraction
         self.accessibilityTraits = UIAccessibilityTraitAllowsDirectInteraction
         
+        updateACDisplay()
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -400,14 +402,15 @@ class KeyboardViewController: UIInputViewController {
         if (nextWord != "") {
             let index = nextWord.index(nextWord.startIndex, offsetBy: curWord.characters.count)
             (textDocumentProxy as UIKeyInput).insertText(nextWord.substring(from: index))
-            curWord = ""
-            nextWord = ""
-            dictStart = 0
+            //curWord = ""
+            //nextWord = ""
+            //dictStart = 0
         }
         (textDocumentProxy as UIKeyInput).insertText(" ")
         curWord = ""
         nextWord = ""
         dictStart = 0
+        updateACDisplay()
     }
     
     func getCurWord() -> String {
