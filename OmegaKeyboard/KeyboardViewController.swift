@@ -200,16 +200,16 @@ class KeyboardViewController: UIInputViewController {
         if(selectedCharIndex > 0) {
             selectedCharIndex -= 1
         }
-        updateSelectionDisplay()
         updateACDisplay()
+        updateSelectionDisplay()
     }
     
     func shiftRight() {
         if(selectedCharIndex < keyboardRows[selectedRowIndex].count - 1) {
             selectedCharIndex += 1
         }
-        updateSelectionDisplay()
         updateACDisplay()
+        updateSelectionDisplay()
     }
     
     func shiftUp() {
@@ -220,8 +220,8 @@ class KeyboardViewController: UIInputViewController {
         if(selectedRowIndex != 0) {
             selectedCharIndex = 0
         }
-        updateSelectionDisplay()
         updateACDisplay()
+        updateSelectionDisplay()
     }
     
     func shiftDown() {
@@ -232,8 +232,8 @@ class KeyboardViewController: UIInputViewController {
         else if(selectedRowIndex != 1) {
             selectedCharIndex = 0
         }
-        updateSelectionDisplay()
         updateACDisplay()
+        updateSelectionDisplay()
     }
     
     func addGestures() {
