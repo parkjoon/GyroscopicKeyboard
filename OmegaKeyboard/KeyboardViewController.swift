@@ -258,9 +258,6 @@ class KeyboardViewController: UIInputViewController {
         let doubleTap = UITapGestureRecognizer(target: self, action: #selector(enterAutoCompleteWord))
         doubleTap.numberOfTapsRequired = 2
         
-//        tap.require(toFail: doubleTap)
-
-        
         view.addGestureRecognizer(swipeDown)
         view.addGestureRecognizer(swipeUp)
         view.addGestureRecognizer(swipeLeft)
@@ -410,20 +407,21 @@ class KeyboardViewController: UIInputViewController {
     func updateACDisplay() {
         let acWord = getAutoCompleteWord()
         autocompleteDisplay.text = acWord
-        //autocompleteDisplay.text = getCurWord()
     }
    
     func enterAutoCompleteWord() {
         enterDelete()
-        (textDocumentProxy as UIKeyInput).insertText(keyboardRows[selectedRowIndex][selectedCharIndex])
         nextWord = getAutoCompleteWord()
-        if (nextWord != "") {
-            let index = nextWord.index(nextWord.startIndex, offsetBy: curWord.characters.count + 1)
-            (textDocumentProxy as UIKeyInput).insertText(nextWord.substring(from: index))
-            //curWord = ""
-            //nextWord = ""
-            //dictStart = 0
+        for _ in 0...curWord.characters.count-1 {
+            (textDocumentProxy as UIKeyInput).deleteBackward()
         }
+        (textDocumentProxy as UIKeyInput).insertText(curWord)
+        (textDocumentProxy as UIKeyInput).insertText(keyboardRows[selectedRowIndex][selectedCharIndex])
+        if (nextWord == "") {
+            return
+        }
+        let index = nextWord.index(nextWord.startIndex, offsetBy: curWord.characters.count + 1)
+        (textDocumentProxy as UIKeyInput).insertText(nextWord.substring(from: index))
         (textDocumentProxy as UIKeyInput).insertText(" ")
         curWord = ""
         nextWord = ""
