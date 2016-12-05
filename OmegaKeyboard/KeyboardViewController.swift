@@ -190,7 +190,9 @@ class KeyboardViewController: UIInputViewController {
         let acLabel: UILabel = UILabel()
         let screenSize: CGRect = UIScreen.main.bounds
         acLabel.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: 30)
-        acLabel.backgroundColor = UIColor.darkGray
+        acLabel.backgroundColor = UIColor.black
+        acLabel.textColor = UIColor.white
+        acLabel.textAlignment = NSTextAlignment.center
         view.addSubview(acLabel)
         return acLabel
     }
@@ -198,17 +200,17 @@ class KeyboardViewController: UIInputViewController {
     func shiftLeft() {
         if(selectedCharIndex > 0) {
             selectedCharIndex -= 1
+            updateACDisplay()
+            updateSelectionDisplay()
         }
-        updateSelectionDisplay()
-        updateACDisplay()
     }
     
     func shiftRight() {
         if(selectedCharIndex < keyboardRows[selectedRowIndex].count - 1) {
             selectedCharIndex += 1
+            updateACDisplay()
+            updateSelectionDisplay()
         }
-        updateSelectionDisplay()
-        updateACDisplay()
     }
     
     func shiftUp() {
@@ -219,8 +221,8 @@ class KeyboardViewController: UIInputViewController {
         if(selectedRowIndex != 0) {
             selectedCharIndex = 0
         }
-        updateSelectionDisplay()
         updateACDisplay()
+        updateSelectionDisplay()
     }
     
     func shiftDown() {
@@ -231,8 +233,8 @@ class KeyboardViewController: UIInputViewController {
         else if(selectedRowIndex != 1) {
             selectedCharIndex = 0
         }
-        updateSelectionDisplay()
         updateACDisplay()
+        updateSelectionDisplay()
     }
     
     func addGestures() {
@@ -256,7 +258,7 @@ class KeyboardViewController: UIInputViewController {
         let doubleTap = UITapGestureRecognizer(target: self, action: #selector(enterAutoCompleteWord))
         doubleTap.numberOfTapsRequired = 2
         
-        tap.require(toFail: doubleTap)
+//        tap.require(toFail: doubleTap)
 
         
         view.addGestureRecognizer(swipeDown)
@@ -324,18 +326,34 @@ class KeyboardViewController: UIInputViewController {
     }
     
     func createPunctuationRow() -> [String] {
-        return [".", ",", "!", "?"]
+        return [".", ",", "!", "?", "'", "\""]
     }
     
     func createSymbolRow() -> [String] {
-        return ["-", "_", "+", "(", ")", "=", "@", "#", "$", "%", "&", "*", "^", "~"]
+        return ["-", "_", "+", "(", ")", "=", "@", "%", "#", "$", "/", "&", "*", "^", "~", "[","]","<",">"]
     }
     
     func updateSelectionDisplay() {
         let text = keyboardRows[selectedRowIndex][selectedCharIndex]
         selectionDisplay.text = text
         selectionDisplay.backgroundColor = rowColors[selectedRowIndex]
-        UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(selectionDisplay.text!, comment: ""))
+        if (autocompleteDisplay.text == "") {
+            if (selectedRowIndex == 0) {
+                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString("Cap " + selectionDisplay.text!, comment: ""))
+            }
+            else {
+                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(selectionDisplay.text!, comment: ""))
+            }
+        }
+        else {
+            if (selectedRowIndex == 0) {
+                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString("Cap " + selectionDisplay.text! + ", " + autocompleteDisplay.text!, comment: ""))
+
+            }
+            else {
+                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(selectionDisplay.text! + ", " + autocompleteDisplay.text!, comment: ""))
+            }
+        }
     }
     
     /*
@@ -396,9 +414,11 @@ class KeyboardViewController: UIInputViewController {
     }
    
     func enterAutoCompleteWord() {
+        enterDelete()
+        (textDocumentProxy as UIKeyInput).insertText(keyboardRows[selectedRowIndex][selectedCharIndex])
         nextWord = getAutoCompleteWord()
         if (nextWord != "") {
-            let index = nextWord.index(nextWord.startIndex, offsetBy: curWord.characters.count)
+            let index = nextWord.index(nextWord.startIndex, offsetBy: curWord.characters.count + 1)
             (textDocumentProxy as UIKeyInput).insertText(nextWord.substring(from: index))
             //curWord = ""
             //nextWord = ""
@@ -413,6 +433,9 @@ class KeyboardViewController: UIInputViewController {
     
     func getCurWord() -> String {
         let text = textDocumentProxy.documentContextBeforeInput
+        if (text == nil) {
+            return ""
+        }
         let words = text?.components(separatedBy: " ")
         return words![words!.count-1]
     }
