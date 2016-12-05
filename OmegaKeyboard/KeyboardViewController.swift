@@ -190,8 +190,9 @@ class KeyboardViewController: UIInputViewController {
         let acLabel: UILabel = UILabel()
         let screenSize: CGRect = UIScreen.main.bounds
         acLabel.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: 30)
-        acLabel.backgroundColor = UIColor.darkGray
+        acLabel.backgroundColor = UIColor.black
         acLabel.textColor = UIColor.white
+        acLabel.textAlignment = NSTextAlignment.center
         view.addSubview(acLabel)
         return acLabel
     }
@@ -244,10 +245,10 @@ class KeyboardViewController: UIInputViewController {
         let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(shiftUp))
         swipeUp.direction = UISwipeGestureRecognizerDirection.up
         
-        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(enterDelete))
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(shiftLeft))
         swipeLeft.direction = UISwipeGestureRecognizerDirection.left
         
-        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(enterSpace))
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(shiftRight))
         swipeRight.direction = UISwipeGestureRecognizerDirection.right
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(insertSelectedCharacter (_:)))
@@ -325,11 +326,11 @@ class KeyboardViewController: UIInputViewController {
     }
     
     func createPunctuationRow() -> [String] {
-        return [".", ",", "!", "?"]
+        return [".", ",", "!", "?", "'", "\"",]
     }
     
     func createSymbolRow() -> [String] {
-        return ["-", "_", "+", "(", ")", "=", "@", "%", "#", "$", "%", "&", "*", "^", "~"]
+        return ["-", "_", "+", "(", ")", "=", "@", "%", "#", "$", "/", "&", "*", "^", "~", "[","]","<",">"]
     }
     
     func updateSelectionDisplay() {
