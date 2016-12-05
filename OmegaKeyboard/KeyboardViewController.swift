@@ -328,7 +328,7 @@ class KeyboardViewController: UIInputViewController {
     }
     
     func createSymbolRow() -> [String] {
-        return ["-", "_", "+", "(", ")", "=", "@", "#", "$", "%", "&", "*", "^", "~"]
+        return ["-", "_", "+", "(", ")", "=", "@", "%", "#", "$", "%", "&", "*", "^", "~"]
     }
     
     func updateSelectionDisplay() {
