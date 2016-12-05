@@ -246,11 +246,9 @@ class KeyboardViewController: UIInputViewController {
         swipeUp.direction = UISwipeGestureRecognizerDirection.up
         
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(enterDelete))
-//        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(shiftLeft))
         swipeLeft.direction = UISwipeGestureRecognizerDirection.left
         
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(enterSpace))
-//        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(shiftRight))
         swipeRight.direction = UISwipeGestureRecognizerDirection.right
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(insertSelectedCharacter (_:)))
@@ -259,9 +257,6 @@ class KeyboardViewController: UIInputViewController {
         
         let doubleTap = UITapGestureRecognizer(target: self, action: #selector(enterAutoCompleteWord))
         doubleTap.numberOfTapsRequired = 2
-        
-//        tap.require(toFail: doubleTap)
-
         
         view.addGestureRecognizer(swipeDown)
         view.addGestureRecognizer(swipeUp)
@@ -412,7 +407,6 @@ class KeyboardViewController: UIInputViewController {
     func updateACDisplay() {
         let acWord = getAutoCompleteWord()
         autocompleteDisplay.text = acWord
-        //autocompleteDisplay.text = getCurWord()
     }
    
     func enterAutoCompleteWord() {
@@ -426,13 +420,8 @@ class KeyboardViewController: UIInputViewController {
         if (nextWord == "") {
             return
         }
-//        if (nextWord != "") {
-            let index = nextWord.index(nextWord.startIndex, offsetBy: curWord.characters.count + 1)
-            (textDocumentProxy as UIKeyInput).insertText(nextWord.substring(from: index))
-            //curWord = ""
-            //nextWord = ""
-            //dictStart = 0
-//        }
+        let index = nextWord.index(nextWord.startIndex, offsetBy: curWord.characters.count + 1)
+        (textDocumentProxy as UIKeyInput).insertText(nextWord.substring(from: index))
         (textDocumentProxy as UIKeyInput).insertText(" ")
         curWord = ""
         nextWord = ""
