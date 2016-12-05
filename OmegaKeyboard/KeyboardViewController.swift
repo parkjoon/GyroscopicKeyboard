@@ -246,9 +246,11 @@ class KeyboardViewController: UIInputViewController {
         swipeUp.direction = UISwipeGestureRecognizerDirection.up
         
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(enterDelete))
+//        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(shiftLeft))
         swipeLeft.direction = UISwipeGestureRecognizerDirection.left
         
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(enterSpace))
+//        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(shiftRight))
         swipeRight.direction = UISwipeGestureRecognizerDirection.right
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(insertSelectedCharacter (_:)))
@@ -417,7 +419,10 @@ class KeyboardViewController: UIInputViewController {
         enterDelete()
         (textDocumentProxy as UIKeyInput).insertText(keyboardRows[selectedRowIndex][selectedCharIndex])
         nextWord = getAutoCompleteWord()
-        if (nextWord != "") {
+        if (nextWord == "") {
+            return
+        }
+//        if (nextWord != "") {
             let index = nextWord.index(nextWord.startIndex, offsetBy: curWord.characters.count + 1)
             (textDocumentProxy as UIKeyInput).insertText(nextWord.substring(from: index))
             stopSpeaking()
@@ -425,7 +430,7 @@ class KeyboardViewController: UIInputViewController {
             //curWord = ""
             //nextWord = ""
             //dictStart = 0
-        }
+//        }
         (textDocumentProxy as UIKeyInput).insertText(" ")
         curWord = ""
         nextWord = ""
