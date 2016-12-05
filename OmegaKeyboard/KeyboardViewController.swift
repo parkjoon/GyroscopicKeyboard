@@ -420,6 +420,8 @@ class KeyboardViewController: UIInputViewController {
         if (nextWord != "") {
             let index = nextWord.index(nextWord.startIndex, offsetBy: curWord.characters.count + 1)
             (textDocumentProxy as UIKeyInput).insertText(nextWord.substring(from: index))
+            stopSpeaking()
+            UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(nextWord, comment: ""))
             //curWord = ""
             //nextWord = ""
             //dictStart = 0
