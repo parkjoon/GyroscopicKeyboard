@@ -64,10 +64,10 @@ class KeyboardViewController: UIInputViewController {
         
         fillDict()
         selectionDisplay.accessibilityTraits = UIAccessibilityTraitAllowsDirectInteraction
+        selectionDisplay.isAccessibilityElement = true
         self.accessibilityTraits = UIAccessibilityTraitAllowsDirectInteraction
         
         updateACDisplay()
-        
     }
     
     override func didReceiveMemoryWarning() {
