@@ -418,7 +418,7 @@ class KeyboardViewController: UIInputViewController {
     func enterAutoCompleteWord() {
         enterDelete()
         nextWord = getAutoCompleteWord()
-        for i in 0...curWord.characters.count-1 {
+        for _ in 0...curWord.characters.count-1 {
             (textDocumentProxy as UIKeyInput).deleteBackward()
         }
         (textDocumentProxy as UIKeyInput).insertText(curWord)
