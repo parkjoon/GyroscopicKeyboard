@@ -337,7 +337,12 @@ class KeyboardViewController: UIInputViewController {
         let text = keyboardRows[selectedRowIndex][selectedCharIndex]
         selectionDisplay.text = text
         selectionDisplay.backgroundColor = rowColors[selectedRowIndex]
-        UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(selectionDisplay.text! + ", " + autocompleteDisplay.text!, comment: ""))
+        if (autocompleteDisplay.text == "") {
+            UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(selectionDisplay.text!, comment: ""))
+        }
+        else {
+            UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(selectionDisplay.text! + ", " + autocompleteDisplay.text!, comment: ""))
+        }
     }
     
     /*
