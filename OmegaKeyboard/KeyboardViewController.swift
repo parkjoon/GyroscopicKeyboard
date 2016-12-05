@@ -417,12 +417,12 @@ class KeyboardViewController: UIInputViewController {
    
     func enterAutoCompleteWord() {
         enterDelete()
-        (textDocumentProxy as UIKeyInput).insertText(keyboardRows[selectedRowIndex][selectedCharIndex])
         nextWord = getAutoCompleteWord()
         for i in 0...curWord.characters.count-1 {
             (textDocumentProxy as UIKeyInput).deleteBackward()
         }
         (textDocumentProxy as UIKeyInput).insertText(curWord)
+        (textDocumentProxy as UIKeyInput).insertText(keyboardRows[selectedRowIndex][selectedCharIndex])
         if (nextWord == "") {
             return
         }
