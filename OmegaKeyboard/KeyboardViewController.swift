@@ -190,8 +190,9 @@ class KeyboardViewController: UIInputViewController {
         let acLabel: UILabel = UILabel()
         let screenSize: CGRect = UIScreen.main.bounds
         acLabel.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: 30)
-        acLabel.backgroundColor = UIColor.darkGray
+        acLabel.backgroundColor = UIColor.black
         acLabel.textColor = UIColor.white
+        acLabel.textAlignment = NSTextAlignment.center
         view.addSubview(acLabel)
         return acLabel
     }
