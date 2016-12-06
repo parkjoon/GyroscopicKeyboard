@@ -85,21 +85,13 @@ class KeyboardViewController: UIInputViewController {
     let speechSynthesizer = AVSpeechSynthesizer()
     
     func isGyroAvailable() {
-        // Set the initially selected character.
-        //selectButton(rowIndex: 0, buttonIndex: 0)
-        if manager.isGyroAvailable && manager.isDeviceMotionAvailable && manager.isAccelerometerAvailable {
+        if manager.isAccelerometerAvailable {
             manager.startAccelerometerUpdates()
             manager.accelerometerUpdateInterval = 0.1
             if (manager.isAccelerometerActive) {
                 Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(KeyboardViewController.selectMovement), userInfo: nil, repeats: true)
-            }
-            else {
-                // did not activate gyro and motion update properly
-            }
-        }
-        else {
-            // Keyboard won't work for this device.
-        }
+            } // else did not activate gyro and motion update properly
+        }// else Keyboard won't work for this device.
     }
     
     /*
@@ -107,7 +99,6 @@ class KeyboardViewController: UIInputViewController {
      */
     
     var ctr = 6 // used for determining speed of gyroscope
-    
     func selectMovement() {
         if (ctr > 2) { // prevent integer overflow
             ctr -= 1
@@ -206,6 +197,8 @@ class KeyboardViewController: UIInputViewController {
         if(selectedRowIndex > 0) {
             selectedRowIndex -= 1
         }
+
+        //when switching between rows, reset index to 0 only if switching between upper and lowercase
         if(selectedRowIndex != 0) {
             selectedCharIndex = 0
         }
@@ -217,6 +210,9 @@ class KeyboardViewController: UIInputViewController {
         if(selectedRowIndex < keyboardRows.count - 1) {
             selectedRowIndex += 1
         }
+
+        //when switching between rows, reset index to 0 only if switching between upper and lowercase
+        //also don't reset if user swipes down when already on the bottom row
         if(selectedRowIndex != 1 && selectedRowIndex != keyboardRows.count - 1) {
             selectedCharIndex = 0
         }
@@ -318,7 +314,6 @@ class KeyboardViewController: UIInputViewController {
     }
     
     func updateSelectionDisplay() {
-//        let text = keyboardRows[selectedRowIndex][selectedCharIndex]
         let symbol = keyboardRows[selectedRowIndex][selectedCharIndex]
         selectionDisplay.text = symbol
         selectionDisplay.backgroundColor = rowColors[selectedRowIndex]
