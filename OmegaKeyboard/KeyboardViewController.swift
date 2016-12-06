@@ -41,14 +41,7 @@ class KeyboardViewController: UIInputViewController {
     
     override func viewDidLayoutSubviews() {
         let screenSize: CGRect = UIScreen.main.bounds
-        if(UIScreen.main.bounds.size.width < UIScreen.main.bounds.size.height) {
-            // Keyboard is in Portrait
-            selectionDisplay.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: (screenSize.height / 3.08))
-        }
-        else{
-            // Keyboard is in Landscape
-            selectionDisplay.frame = CGRect(x: 0, y: 0, width: screenSize.height, height: (screenSize.width / 3.08))
-        }
+        selectionDisplay.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: (screenSize.height / 3.08))
     }
     
     override func viewDidLoad() {
@@ -73,10 +66,6 @@ class KeyboardViewController: UIInputViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    override func textWillChange(_ textInput: UITextInput?) {
-        // The app is about to change the document's contents. Perform any preparation here.
     }
     
     override func textDidChange(_ textInput: UITextInput?) {
@@ -214,9 +203,8 @@ class KeyboardViewController: UIInputViewController {
     }
     
     func shiftUp() {
-        selectedRowIndex -= 1
-        if(selectedRowIndex < 0) {
-            selectedRowIndex = 0
+        if(selectedRowIndex > 0) {
+            selectedRowIndex -= 1
         }
         if(selectedRowIndex != 0) {
             selectedCharIndex = 0
@@ -226,11 +214,10 @@ class KeyboardViewController: UIInputViewController {
     }
     
     func shiftDown() {
-        selectedRowIndex += 1
-        if(selectedRowIndex >= keyboardRows.count) {
-            selectedRowIndex = keyboardRows.count - 1
+        if(selectedRowIndex < keyboardRows.count - 1) {
+            selectedRowIndex += 1
         }
-        else if(selectedRowIndex != 1) {
+        if(selectedRowIndex != 1) {
             selectedCharIndex = 0
         }
         updateACDisplay()
@@ -332,23 +319,24 @@ class KeyboardViewController: UIInputViewController {
     
     func updateSelectionDisplay() {
 //        let text = keyboardRows[selectedRowIndex][selectedCharIndex]
-        selectionDisplay.text = keyboardRows[selectedRowIndex][selectedCharIndex]
+        let symbol = keyboardRows[selectedRowIndex][selectedCharIndex]
+        selectionDisplay.text = symbol
         selectionDisplay.backgroundColor = rowColors[selectedRowIndex]
         if (autocompleteDisplay.text == "") {
             if (selectedRowIndex == 0) {
-                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString("Cap " + selectionDisplay.text!, comment: ""))
+                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString("Cap " + symbol, comment: ""))
             }
             else {
-                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(selectionDisplay.text!, comment: ""))
+                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(symbol, comment: ""))
             }
         }
         else {
             if (selectedRowIndex == 0) {
-                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString("Cap " + selectionDisplay.text! + ", " + autocompleteDisplay.text!, comment: ""))
+                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString("Cap " + symbol + ", " + autocompleteDisplay.text!, comment: ""))
 
             }
             else {
-                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(selectionDisplay.text! + ", " + autocompleteDisplay.text!, comment: ""))
+                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(symbol + ", " + autocompleteDisplay.text!, comment: ""))
             }
         }
     }
