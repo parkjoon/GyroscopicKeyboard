@@ -365,7 +365,7 @@ class KeyboardViewController: UIInputViewController {
     }
 
     func getPositionInDictionary() -> Int {
-        for i in dictStart...(dictionary.count-1) {
+        for i in dictStart...(dictionary.count - 1) {
             if (dictionary[i].characters.count > curWord.characters.count) {
                 if (dictionary[i].hasPrefix(curWord.lowercased())) {
                     return i
@@ -377,7 +377,7 @@ class KeyboardViewController: UIInputViewController {
     
     func getAutoCompleteWord() -> String {
         var searchTerm = curWord + keyboardRows[selectedRowIndex][selectedCharIndex]
-        for i in dictStart...(dictionary.count-1) {
+        for i in dictStart...(dictionary.count - 1) {
             if (dictionary[i].characters.count >= searchTerm.characters.count) {
                 if (dictionary[i].hasPrefix(searchTerm.lowercased())) {
                     return dictionary[i]
@@ -396,7 +396,7 @@ class KeyboardViewController: UIInputViewController {
         enterDelete()
         nextWord = getAutoCompleteWord()
         if (curWord != "") {
-        for _ in 0...curWord.characters.count-1 {
+        for _ in 0...curWord.characters.count - 1 {
             (textDocumentProxy as UIKeyInput).deleteBackward()
         }
         (textDocumentProxy as UIKeyInput).insertText(curWord)
@@ -420,6 +420,6 @@ class KeyboardViewController: UIInputViewController {
             return ""
         }
         let words = text?.components(separatedBy: " ")
-        return words![words!.count-1]
+        return words![words!.count - 1]
     }
 }
