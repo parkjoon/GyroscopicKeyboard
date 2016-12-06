@@ -217,7 +217,7 @@ class KeyboardViewController: UIInputViewController {
         if(selectedRowIndex < keyboardRows.count - 1) {
             selectedRowIndex += 1
         }
-        if(selectedRowIndex != 1) {
+        if(selectedRowIndex != 1 && selectedRowIndex != keyboardRows.count - 1) {
             selectedCharIndex = 0
         }
         updateACDisplay()
