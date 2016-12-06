@@ -321,23 +321,24 @@ class KeyboardViewController: UIInputViewController {
     
     func updateSelectionDisplay() {
 //        let text = keyboardRows[selectedRowIndex][selectedCharIndex]
-        selectionDisplay.text = keyboardRows[selectedRowIndex][selectedCharIndex]
+        let symbol = keyboardRows[selectedRowIndex][selectedCharIndex]
+        selectionDisplay.text = symbol
         selectionDisplay.backgroundColor = rowColors[selectedRowIndex]
         if (autocompleteDisplay.text == "") {
             if (selectedRowIndex == 0) {
-                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString("Cap " + selectionDisplay.text!, comment: ""))
+                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString("Cap " + symbol, comment: ""))
             }
             else {
-                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(selectionDisplay.text!, comment: ""))
+                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(symbol, comment: ""))
             }
         }
         else {
             if (selectedRowIndex == 0) {
-                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString("Cap " + selectionDisplay.text! + ", " + autocompleteDisplay.text!, comment: ""))
+                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString("Cap " + symbol + ", " + autocompleteDisplay.text!, comment: ""))
 
             }
             else {
-                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(selectionDisplay.text! + ", " + autocompleteDisplay.text!, comment: ""))
+                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(symbol + ", " + autocompleteDisplay.text!, comment: ""))
             }
         }
     }
