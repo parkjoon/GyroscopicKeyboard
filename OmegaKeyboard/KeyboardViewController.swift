@@ -203,9 +203,8 @@ class KeyboardViewController: UIInputViewController {
     }
     
     func shiftUp() {
-        selectedRowIndex -= 1
-        if(selectedRowIndex < 0) {
-            selectedRowIndex = 0
+        if(selectedRowIndex > 0) {
+            selectedRowIndex -= 1
         }
         if(selectedRowIndex != 0) {
             selectedCharIndex = 0
@@ -215,11 +214,10 @@ class KeyboardViewController: UIInputViewController {
     }
     
     func shiftDown() {
-        selectedRowIndex += 1
-        if(selectedRowIndex >= keyboardRows.count) {
-            selectedRowIndex = keyboardRows.count - 1
+        if(selectedRowIndex < keyboardRows.count - 1) {
+            selectedRowIndex += 1
         }
-        else if(selectedRowIndex != 1) {
+        if(selectedRowIndex != 1) {
             selectedCharIndex = 0
         }
         updateACDisplay()
