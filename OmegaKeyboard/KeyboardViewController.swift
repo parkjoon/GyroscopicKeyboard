@@ -236,7 +236,7 @@ class KeyboardViewController: UIInputViewController {
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(insertSelectedCharacter (_:)))
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(pressEnter))
-        let pinch = UIPinchGestureRecognizer(target: self, action: #selector(stopSpeaking))
+        let pinch = UIPinchGestureRecognizer(target: self, action: #selector(handlePinch))
         
         let doubleTap = UITapGestureRecognizer(target: self, action: #selector(enterAutoCompleteWord))
         doubleTap.numberOfTapsRequired = 2
@@ -252,7 +252,14 @@ class KeyboardViewController: UIInputViewController {
         
         isGyroAvailable()
     }
-    
+    func handlePinch(pinch: UIPinchGestureRecognizer) {
+        if (pinch.scale < 1) { //pinch in
+            stopSpeaking()
+        } else {
+            speakContent()
+        }
+        
+    }
     func insertSelectedCharacter(_ sender: UITapGestureRecognizer){
         let selectedCharacter = keyboardRows[selectedRowIndex][selectedCharIndex]
         (textDocumentProxy as UIKeyInput).insertText(selectedCharacter)
