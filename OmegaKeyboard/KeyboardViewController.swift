@@ -294,7 +294,7 @@ class KeyboardViewController: UIInputViewController {
     
     // Stop any and all currently playing audio.
     func stopSpeaking() {
-        UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, "Readback stopped.")
+        UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, "Read back stopped.")
     }
     
     /*
