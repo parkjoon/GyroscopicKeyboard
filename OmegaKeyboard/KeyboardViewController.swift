@@ -50,16 +50,19 @@ class KeyboardViewController: UIInputViewController {
         selectedRowIndex = 1
         selectedCharIndex = 0
         selectionDisplay = createSelectionDisplay()
-        autocompleteDisplay = createACDisplay()
+
+        //set voiceOver focus to keyboard
+        UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, selectionDisplay)
 
         addNextKeyboardButton()
         addGestures()
-        
-        fillDict()
+
         selectionDisplay.accessibilityTraits = UIAccessibilityTraitAllowsDirectInteraction
         selectionDisplay.isAccessibilityElement = true
         self.accessibilityTraits = UIAccessibilityTraitAllowsDirectInteraction
-        
+
+        autocompleteDisplay = createACDisplay()
+        fillDict()
         updateACDisplay()
     }
     
