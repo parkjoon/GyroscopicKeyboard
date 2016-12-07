@@ -324,6 +324,7 @@ class KeyboardViewController: UIInputViewController {
         let symbol = keyboardRows[selectedRowIndex][selectedCharIndex]
         selectionDisplay.text = symbol
         selectionDisplay.backgroundColor = rowColors[selectedRowIndex]
+        if (selectionDisplay.accessibilityElementIsFocused()) {
         if (autocompleteDisplay.text == "") {
             if (selectedRowIndex == 0) {
                 UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString("Cap " + symbol, comment: ""))
@@ -340,6 +341,7 @@ class KeyboardViewController: UIInputViewController {
             else {
                 UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(symbol + ", " + autocompleteDisplay.text!, comment: ""))
             }
+        }
         }
     }
     
