@@ -50,16 +50,19 @@ class KeyboardViewController: UIInputViewController {
         selectedRowIndex = 1
         selectedCharIndex = 0
         selectionDisplay = createSelectionDisplay()
-        autocompleteDisplay = createACDisplay()
+
+        //set voiceOver focus to keyboard
+        UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, selectionDisplay)
 
         addNextKeyboardButton()
         addGestures()
-        
-        fillDict()
+
         selectionDisplay.accessibilityTraits = UIAccessibilityTraitAllowsDirectInteraction
         selectionDisplay.isAccessibilityElement = true
         self.accessibilityTraits = UIAccessibilityTraitAllowsDirectInteraction
-        
+
+        autocompleteDisplay = createACDisplay()
+        fillDict()
         updateACDisplay()
     }
     
@@ -85,21 +88,13 @@ class KeyboardViewController: UIInputViewController {
     let speechSynthesizer = AVSpeechSynthesizer()
     
     func isGyroAvailable() {
-        // Set the initially selected character.
-        //selectButton(rowIndex: 0, buttonIndex: 0)
-        if manager.isGyroAvailable && manager.isDeviceMotionAvailable && manager.isAccelerometerAvailable {
+        if manager.isAccelerometerAvailable {
             manager.startAccelerometerUpdates()
             manager.accelerometerUpdateInterval = 0.1
             if (manager.isAccelerometerActive) {
                 Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(KeyboardViewController.selectMovement), userInfo: nil, repeats: true)
-            }
-            else {
-                // did not activate gyro and motion update properly
-            }
-        }
-        else {
-            // Keyboard won't work for this device.
-        }
+            } // else did not activate gyro and motion update properly
+        }// else Keyboard won't work for this device.
     }
     
     /*
@@ -107,7 +102,6 @@ class KeyboardViewController: UIInputViewController {
      */
     
     var ctr = 6 // used for determining speed of gyroscope
-    
     func selectMovement() {
         if (ctr > 2) { // prevent integer overflow
             ctr -= 1
@@ -206,6 +200,8 @@ class KeyboardViewController: UIInputViewController {
         if(selectedRowIndex > 0) {
             selectedRowIndex -= 1
         }
+
+        //when switching between rows, reset index to 0 only if switching between upper and lowercase
         if(selectedRowIndex != 0) {
             selectedCharIndex = 0
         }
@@ -217,7 +213,10 @@ class KeyboardViewController: UIInputViewController {
         if(selectedRowIndex < keyboardRows.count - 1) {
             selectedRowIndex += 1
         }
-        if(selectedRowIndex != 1) {
+
+        //when switching between rows, reset index to 0 only if switching between upper and lowercase
+        //also don't reset if user swipes down when already on the bottom row
+        if(selectedRowIndex != 1 && selectedRowIndex != keyboardRows.count - 1) {
             selectedCharIndex = 0
         }
         updateACDisplay()
@@ -240,7 +239,7 @@ class KeyboardViewController: UIInputViewController {
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(insertSelectedCharacter (_:)))
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(pressEnter))
-        let pinch = UIPinchGestureRecognizer(target: self, action: #selector(stopSpeaking))
+        let pinch = UIPinchGestureRecognizer(target: self, action: #selector(handlePinch))
         
         let doubleTap = UITapGestureRecognizer(target: self, action: #selector(enterAutoCompleteWord))
         doubleTap.numberOfTapsRequired = 2
@@ -256,7 +255,14 @@ class KeyboardViewController: UIInputViewController {
         
         isGyroAvailable()
     }
-    
+    func handlePinch(pinch: UIPinchGestureRecognizer) {
+        if (pinch.scale < 1) { //pinch in
+            stopSpeaking()
+        } else {
+            speakContent()
+        }
+        
+    }
     func insertSelectedCharacter(_ sender: UITapGestureRecognizer){
         let selectedCharacter = keyboardRows[selectedRowIndex][selectedCharIndex]
         (textDocumentProxy as UIKeyInput).insertText(selectedCharacter)
@@ -291,7 +297,7 @@ class KeyboardViewController: UIInputViewController {
     
     // Stop any and all currently playing audio.
     func stopSpeaking() {
-        UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, "Readback stopped.")
+        UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, "Read back stopped.")
     }
     
     /*
@@ -318,10 +324,10 @@ class KeyboardViewController: UIInputViewController {
     }
     
     func updateSelectionDisplay() {
-//        let text = keyboardRows[selectedRowIndex][selectedCharIndex]
         let symbol = keyboardRows[selectedRowIndex][selectedCharIndex]
         selectionDisplay.text = symbol
         selectionDisplay.backgroundColor = rowColors[selectedRowIndex]
+        if (selectionDisplay.accessibilityElementIsFocused()) {
         if (autocompleteDisplay.text == "") {
             if (selectedRowIndex == 0) {
                 UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString("Cap " + symbol, comment: ""))
@@ -338,6 +344,7 @@ class KeyboardViewController: UIInputViewController {
             else {
                 UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(symbol + ", " + autocompleteDisplay.text!, comment: ""))
             }
+        }
         }
     }
     
@@ -370,7 +377,7 @@ class KeyboardViewController: UIInputViewController {
     }
 
     func getPositionInDictionary() -> Int {
-        for i in dictStart...(dictionary.count-1) {
+        for i in dictStart...(dictionary.count - 1) {
             if (dictionary[i].characters.count > curWord.characters.count) {
                 if (dictionary[i].hasPrefix(curWord.lowercased())) {
                     return i
@@ -382,7 +389,7 @@ class KeyboardViewController: UIInputViewController {
     
     func getAutoCompleteWord() -> String {
         var searchTerm = curWord + keyboardRows[selectedRowIndex][selectedCharIndex]
-        for i in dictStart...(dictionary.count-1) {
+        for i in dictStart...(dictionary.count - 1) {
             if (dictionary[i].characters.count >= searchTerm.characters.count) {
                 if (dictionary[i].hasPrefix(searchTerm.lowercased())) {
                     return dictionary[i]
@@ -401,7 +408,7 @@ class KeyboardViewController: UIInputViewController {
         enterDelete()
         nextWord = getAutoCompleteWord()
         if (curWord != "") {
-        for _ in 0...curWord.characters.count-1 {
+        for _ in 0...curWord.characters.count - 1 {
             (textDocumentProxy as UIKeyInput).deleteBackward()
         }
         (textDocumentProxy as UIKeyInput).insertText(curWord)
@@ -425,6 +432,6 @@ class KeyboardViewController: UIInputViewController {
             return ""
         }
         let words = text?.components(separatedBy: " ")
-        return words![words!.count-1]
+        return words![words!.count - 1]
     }
 }
